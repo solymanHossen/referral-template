@@ -2,12 +2,13 @@
 /**
  * Landing Page Custom Meta Boxes Engine & Form Handler
  *
- * Premium, modern tabbed admin interface registering native WordPress meta boxes for
- * the Onyx Referral Campaign landing page. Includes image upload controls (wp_enqueue_media),
- * nonces, capability checks, autosave guards, sanitization, asset enqueuing, and AJAX form handler.
+ * World-class, modern tabbed admin control panel registering native WordPress meta boxes for
+ * the Onyx Referral Campaign landing page. Features spacious paddings, large readable typography,
+ * image upload controls (wp_enqueue_media), nonces, capability checks, autosave guards, sanitization,
+ * asset enqueuing, and AJAX form handler.
  *
  * @package OnyxLandingTheme
- * @version 4.0.0
+ * @version 4.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -96,20 +97,20 @@ function landing_render_onyx_meta_box( $post ) {
 	?>
 
 	<style>
-		/* Modern Admin UI Design System */
+		/* World-Class Modern Admin UI Design System */
 		.onyx-panel-wrap {
-			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 			background: #ffffff;
-			border: 1px solid #e2e8f0;
-			border-radius: 10px;
-			box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+			border: 1px solid #cbd5e1;
+			border-radius: 12px;
+			box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
 			overflow: hidden;
-			margin-top: 10px;
+			margin-top: 12px;
 		}
 
 		.onyx-panel-header {
-			background: linear-gradient(135deg, #5d0815 0%, #3a040b 100%);
-			padding: 20px 24px;
+			background: linear-gradient(135deg, #5d0815 0%, #3b030a 100%);
+			padding: 24px 32px;
 			color: #ffffff;
 			display: flex;
 			align-items: center;
@@ -117,25 +118,26 @@ function landing_render_onyx_meta_box( $post ) {
 		}
 
 		.onyx-panel-title {
-			font-size: 16px;
+			font-size: 18px;
 			font-weight: 800;
-			letter-spacing: 0.05em;
+			letter-spacing: 0.06em;
 			text-transform: uppercase;
 			margin: 0;
 			color: #ffffff;
 			display: flex;
 			align-items: center;
-			gap: 10px;
+			gap: 12px;
 		}
 
 		.onyx-panel-badge {
 			background: #dfb746;
 			color: #1a1a1a;
-			font-size: 11px;
+			font-size: 12px;
 			font-weight: 800;
-			padding: 3px 10px;
+			padding: 5px 14px;
 			border-radius: 20px;
 			text-transform: uppercase;
+			letter-spacing: 0.05em;
 		}
 
 		/* Tab Navigation Bar */
@@ -143,14 +145,14 @@ function landing_render_onyx_meta_box( $post ) {
 			display: flex;
 			background: #f8fafc;
 			border-bottom: 1px solid #e2e8f0;
-			padding: 0 10px;
-			gap: 4px;
+			padding: 0 16px;
+			gap: 6px;
 		}
 
 		.onyx-tab-btn {
-			padding: 12px 18px;
-			font-size: 13px;
-			font-weight: 600;
+			padding: 16px 24px;
+			font-size: 14px;
+			font-weight: 700;
 			color: #64748b;
 			background: transparent;
 			border: none;
@@ -159,24 +161,25 @@ function landing_render_onyx_meta_box( $post ) {
 			transition: all 0.2s ease;
 			display: flex;
 			align-items: center;
-			gap: 8px;
+			gap: 10px;
 		}
 
 		.onyx-tab-btn:hover {
 			color: #5d0815;
-			background: rgba(93, 8, 21, 0.03);
+			background: rgba(93, 8, 21, 0.04);
 		}
 
 		.onyx-tab-btn.is-active {
 			color: #5d0815;
 			border-bottom-color: #5d0815;
-			font-weight: 700;
+			font-weight: 800;
 			background: #ffffff;
 		}
 
 		/* Tab Content Panels */
 		.onyx-panel-body {
-			padding: 24px;
+			padding: 32px 36px;
+			background: #f8fafc;
 		}
 
 		.onyx-tab-content {
@@ -189,17 +192,18 @@ function landing_render_onyx_meta_box( $post ) {
 		}
 
 		@keyframes onyxFadeIn {
-			from { opacity: 0; transform: translateY(4px); }
+			from { opacity: 0; transform: translateY(6px); }
 			to { opacity: 1; transform: translateY(0); }
 		}
 
 		/* Card Section Containers */
 		.onyx-card-box {
-			background: #f8fafc;
+			background: #ffffff;
 			border: 1px solid #e2e8f0;
-			border-radius: 8px;
-			padding: 18px;
-			margin-bottom: 18px;
+			border-radius: 12px;
+			padding: 28px 32px;
+			margin-bottom: 24px;
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
 		}
 
 		.onyx-card-box:last-child {
@@ -207,19 +211,19 @@ function landing_render_onyx_meta_box( $post ) {
 		}
 
 		.onyx-card-heading {
-			font-size: 13px;
-			font-weight: 700;
-			color: #334155;
+			font-size: 15px;
+			font-weight: 800;
+			color: #1e293b;
 			text-transform: uppercase;
-			letter-spacing: 0.05em;
-			margin: 0 0 14px 0;
-			padding-bottom: 8px;
-			border-bottom: 1px solid #cbd5e1;
+			letter-spacing: 0.06em;
+			margin: 0 0 20px 0;
+			padding-bottom: 12px;
+			border-bottom: 2px solid #f1f5f9;
 		}
 
-		/* Form Fields */
+		/* Form Fields & Typography */
 		.onyx-field-group {
-			margin-bottom: 14px;
+			margin-bottom: 20px;
 		}
 
 		.onyx-field-group:last-child {
@@ -228,22 +232,29 @@ function landing_render_onyx_meta_box( $post ) {
 
 		.onyx-field-group label {
 			display: block;
-			font-weight: 600;
+			font-weight: 700;
 			color: #0f172a;
-			margin-bottom: 5px;
-			font-size: 13px;
+			margin-bottom: 8px;
+			font-size: 14px;
 		}
 
 		.onyx-field-group input[type="text"],
 		.onyx-field-group input[type="url"],
 		.onyx-field-group textarea {
 			width: 100%;
-			padding: 9px 12px;
-			border: 1px solid #cbd5e1;
-			border-radius: 6px;
-			font-size: 13px;
+			padding: 13px 18px;
+			border: 1.5px solid #cbd5e1;
+			border-radius: 8px;
+			font-size: 14px;
+			color: #1e293b;
 			background: #ffffff;
 			transition: all 0.2s ease;
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+		}
+
+		.onyx-field-group textarea {
+			min-height: 100px;
+			line-height: 1.5;
 		}
 
 		.onyx-field-group input[type="text"]:focus,
@@ -251,39 +262,41 @@ function landing_render_onyx_meta_box( $post ) {
 		.onyx-field-group textarea:focus {
 			border-color: #5d0815;
 			outline: none;
-			box-shadow: 0 0 0 2px rgba(93, 8, 21, 0.15);
+			box-shadow: 0 0 0 3px rgba(93, 8, 21, 0.14);
 		}
 
 		.onyx-field-desc {
-			font-size: 12px;
+			font-size: 13px;
 			color: #64748b;
-			margin: 4px 0 0 0;
+			margin: 6px 0 0 0;
 			font-style: italic;
 		}
 
 		/* Grid Layout Helpers */
-		.onyx-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-		.onyx-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+		.onyx-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+		.onyx-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
 
-		@media (max-width: 782px) {
+		@media (max-width: 900px) {
 			.onyx-grid-2, .onyx-grid-3 { grid-template-columns: 1fr; }
 			.onyx-panel-tabs { flex-wrap: wrap; }
+			.onyx-panel-body { padding: 20px; }
+			.onyx-card-box { padding: 20px; }
 		}
 
 		/* Media Uploader Styling */
 		.onyx-media-wrap {
 			display: flex;
-			gap: 16px;
+			gap: 24px;
 			align-items: center;
-			margin-top: 8px;
+			margin-top: 12px;
 		}
 
 		.onyx-media-preview-box {
-			width: 200px;
-			height: 120px;
-			border-radius: 8px;
+			width: 240px;
+			height: 140px;
+			border-radius: 10px;
 			border: 2px dashed #cbd5e1;
-			background: #ffffff;
+			background: #f8fafc;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -303,7 +316,7 @@ function landing_render_onyx_meta_box( $post ) {
 			<h3 class="onyx-panel-title">
 				<span>Onyx Referral Campaign</span>
 			</h3>
-			<span class="onyx-panel-badge">Native Meta Engine v4.0</span>
+			<span class="onyx-panel-badge">Native Engine v4.5</span>
 		</div>
 
 		<!-- Interactive Tab Navigation -->
@@ -362,17 +375,17 @@ function landing_render_onyx_meta_box( $post ) {
 							<?php if ( ! empty( $hero_img_url ) ) : ?>
 								<img src="<?php echo esc_url( $hero_img_url ); ?>" alt="Hero Preview" />
 							<?php else : ?>
-								<span style="color:#94a3b8; font-style:italic; text-align:center; padding:10px; font-size:12px;">Vector Fallback Active</span>
+								<span style="color:#94a3b8; font-style:italic; text-align:center; padding:10px; font-size:13px;">Vector Fallback Active</span>
 							<?php endif; ?>
 						</div>
 						<div>
-							<button type="button" class="button button-secondary button-large" id="onyx_upload_hero_img_btn">
+							<button type="button" class="button button-secondary button-large" id="onyx_upload_hero_img_btn" style="padding: 6px 18px; height: auto; font-size: 14px;">
 								<?php echo ! empty( $hero_img_url ) ? 'Change Custom Card Image' : 'Upload / Select Custom Card Image'; ?>
 							</button>
-							<button type="button" class="button button-link-delete" id="onyx_remove_hero_img_btn" style="margin-left:10px; <?php echo empty( $hero_img_url ) ? 'display:none;' : ''; ?>">
+							<button type="button" class="button button-link-delete" id="onyx_remove_hero_img_btn" style="margin-left:14px; font-size: 14px; <?php echo empty( $hero_img_url ) ? 'display:none;' : ''; ?>">
 								Remove Image
 							</button>
-							<p class="onyx-field-desc" style="margin-top:8px;">
+							<p class="onyx-field-desc" style="margin-top:10px;">
 								Upload a custom PNG/JPG debit card image. If empty, the system automatically renders the metallic vector card visual.
 							</p>
 						</div>
@@ -396,7 +409,7 @@ function landing_render_onyx_meta_box( $post ) {
 					</div>
 					<div class="onyx-field-group">
 						<label for="_landing_form_consent">Consent Checkbox Copy</label>
-						<textarea id="_landing_form_consent" name="_landing_form_consent" rows="2"><?php echo esc_textarea( $form_consent ); ?></textarea>
+						<textarea id="_landing_form_consent" name="_landing_form_consent" rows="3"><?php echo esc_textarea( $form_consent ); ?></textarea>
 					</div>
 				</div>
 
@@ -435,8 +448,8 @@ function landing_render_onyx_meta_box( $post ) {
 					<div class="onyx-card-heading">Stat Card Rate Increases (0.50%)</div>
 					<div class="onyx-grid-2">
 						<!-- Stat Card 1 -->
-						<div style="background:#ffffff; border:1px solid #cbd5e1; padding:14px; border-radius:6px;">
-							<div style="font-weight:700; color:#5d0815; margin-bottom:8px;">Stat Card 1 (Referrer)</div>
+						<div style="background:#f8fafc; border:1.5px solid #cbd5e1; padding:20px; border-radius:10px;">
+							<div style="font-weight:800; font-size:14px; color:#5d0815; margin-bottom:12px; text-transform:uppercase;">Stat Card 1 (Referrer)</div>
 							<div class="onyx-field-group">
 								<label for="_landing_reward1_label">Label</label>
 								<input type="text" id="_landing_reward1_label" name="_landing_reward1_label" value="<?php echo esc_attr( $reward1_label ); ?>" />
@@ -452,8 +465,8 @@ function landing_render_onyx_meta_box( $post ) {
 						</div>
 
 						<!-- Stat Card 2 -->
-						<div style="background:#ffffff; border:1px solid #cbd5e1; padding:14px; border-radius:6px;">
-							<div style="font-weight:700; color:#5d0815; margin-bottom:8px;">Stat Card 2 (Friend)</div>
+						<div style="background:#f8fafc; border:1.5px solid #cbd5e1; padding:20px; border-radius:10px;">
+							<div style="font-weight:800; font-size:14px; color:#5d0815; margin-bottom:12px; text-transform:uppercase;">Stat Card 2 (Friend)</div>
 							<div class="onyx-field-group">
 								<label for="_landing_reward2_label">Label</label>
 								<input type="text" id="_landing_reward2_label" name="_landing_reward2_label" value="<?php echo esc_attr( $reward2_label ); ?>" />
@@ -528,13 +541,13 @@ function landing_render_onyx_meta_box( $post ) {
 						<div class="onyx-field-group">
 							<label for="_landing_support1_title">Support Box 1 Title</label>
 							<input type="text" id="_landing_support1_title" name="_landing_support1_title" value="<?php echo esc_attr( $support1_title ); ?>" />
-							<label for="_landing_support1_desc" style="margin-top:6px;">Support Box 1 Description</label>
+							<label for="_landing_support1_desc" style="margin-top:12px;">Support Box 1 Description</label>
 							<textarea id="_landing_support1_desc" name="_landing_support1_desc" rows="3"><?php echo esc_textarea( $support1_desc ); ?></textarea>
 						</div>
 						<div class="onyx-field-group">
 							<label for="_landing_support2_title">Support Box 2 Title</label>
 							<input type="text" id="_landing_support2_title" name="_landing_support2_title" value="<?php echo esc_attr( $support2_title ); ?>" />
-							<label for="_landing_support2_desc" style="margin-top:6px;">Support Box 2 Description</label>
+							<label for="_landing_support2_desc" style="margin-top:12px;">Support Box 2 Description</label>
 							<textarea id="_landing_support2_desc" name="_landing_support2_desc" rows="3"><?php echo esc_textarea( $support2_desc ); ?></textarea>
 						</div>
 					</div>
@@ -593,7 +606,7 @@ function landing_render_onyx_meta_box( $post ) {
 		$('#onyx_remove_hero_img_btn').click(function(e) {
 			e.preventDefault();
 			$('#_landing_hero_image_url').val('');
-			$('#onyx_hero_img_preview').html('<span style="color:#94a3b8; font-style:italic; text-align:center; padding:10px; font-size:12px;">Vector Fallback Active</span>');
+			$('#onyx_hero_img_preview').html('<span style="color:#94a3b8; font-style:italic; text-align:center; padding:10px; font-size:13px;">Vector Fallback Active</span>');
 			$('#onyx_upload_hero_img_btn').text('Upload / Select Custom Card Image');
 			$(this).hide();
 		});
@@ -705,7 +718,7 @@ function landing_enqueue_onyx_assets() {
 			$css_file_uri  = get_template_directory_uri() . $css_relative_path;
 		}
 
-		$version = file_exists( $css_file_path ) ? filemtime( $css_file_path ) : '4.0.0';
+		$version = file_exists( $css_file_path ) ? filemtime( $css_file_path ) : '4.5.0';
 
 		wp_enqueue_style(
 			'landing-onyx-sections-css',
@@ -716,7 +729,7 @@ function landing_enqueue_onyx_assets() {
 		);
 
 		// Localize script data for AJAX referral form submission
-		wp_register_script( 'landing-onyx-ajax-script', false, array( 'jquery' ), '4.0.0', true );
+		wp_register_script( 'landing-onyx-ajax-script', false, array( 'jquery' ), '4.5.0', true );
 		wp_enqueue_script( 'landing-onyx-ajax-script' );
 
 		$script_vars = array(
