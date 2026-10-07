@@ -6,8 +6,8 @@
 	--onyx-red-dark: #3a040b;
 	--onyx-red-main: #5d0815;
 	--onyx-red-light: #7c0a1c;
-	--onyx-gold: #d4af37;
-	--onyx-gold-light: #e5c158;
+	--onyx-gold: #dfb746;
+	--onyx-gold-light: #f5d876;
 	--onyx-gold-dark: #b89124;
 	--onyx-gold-gradient: linear-gradient(135deg, #e6c562 0%, #c49d28 100%);
 	--onyx-dark-slate: #141619;
@@ -77,19 +77,6 @@
 	z-index: 1;
 }
 
-.onyx-hero__left-glow-line {
-	position: absolute;
-	left: -20px;
-	bottom: 10px;
-	width: 120px;
-	height: 220px;
-	background: linear-gradient(135deg, transparent 30%, rgba(212, 175, 55, 0.9) 100%);
-	filter: blur(12px);
-	transform: rotate(-35deg);
-	pointer-events: none;
-	z-index: 1;
-}
-
 .onyx-hero__container {
 	position: relative;
 	z-index: 2;
@@ -108,23 +95,23 @@
 	letter-spacing: 0.16em;
 	text-transform: uppercase;
 	color: var(--onyx-text-white);
+	opacity: 0.9;
 	margin-bottom: 0.875rem;
 }
 
 .onyx-hero__title {
-	font-size: clamp(2.5rem, 5.2vw, 4.25rem);
+	font-size: clamp(2.5rem, 5.5vw, 4.5rem);
 	font-weight: 900;
 	line-height: 1.08;
 	letter-spacing: -0.015em;
 	text-transform: uppercase;
 	color: #ffffff;
-	margin: 0 0 2rem 0;
+	margin: 0 0 2.25rem 0;
 }
 
 .onyx-hero__gold-text {
-	color: var(--onyx-gold-light);
+	color: var(--onyx-gold);
 	display: block;
-
 }
 
 .onyx-hero__cta-wrap {
@@ -136,7 +123,7 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 13px 40px;
+	padding: 13px 44px;
 	background-color: #3b030a;
 	color: #ffffff;
 	border: 1.5px solid var(--onyx-gold);
@@ -154,7 +141,7 @@
 .onyx-hero__btn:hover {
 	background-color: var(--onyx-gold);
 	color: #3b030a;
-	box-shadow: 0 6px 20px rgba(212, 175, 55, 0.45);
+	box-shadow: 0 6px 20px rgba(223, 183, 70, 0.45);
 }
 
 /* Metallic Vector Debit Card Visual */
@@ -167,30 +154,20 @@
 
 .onyx-debit-card {
 	width: 100%;
-	max-width: 440px;
-	height: 260px;
+	max-width: 450px;
+	height: 265px;
 	border-radius: 16px;
-	background: linear-gradient(135deg, #4d5056 0%, #292a2e 50%, #121316 100%);
-	border: 1.5px solid rgba(255, 255, 255, 0.28);
-	box-shadow: 0 25px 55px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.35);
-	transform: rotate(7deg);
+	background: linear-gradient(135deg, #595c63 0%, #2f3136 45%, #151619 100%);
+	border: 1.5px solid rgba(255, 255, 255, 0.3);
+	box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+	transform: rotate(-14deg) translateY(-10px);
 	position: relative;
 	overflow: hidden;
 	transition: transform 0.4s ease;
 }
 
 .onyx-debit-card:hover {
-	transform: rotate(0deg) scale(1.03);
-}
-
-.onyx-debit-card__shine {
-	position: absolute;
-	top: -60%;
-	right: -60%;
-	width: 200%;
-	height: 200%;
-	background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, transparent 60%);
-	pointer-events: none;
+	transform: rotate(-8deg) scale(1.03);
 }
 
 .onyx-debit-card__surface {
@@ -205,10 +182,10 @@
 .onyx-debit-card__watermark-text {
 	position: absolute;
 	right: 10px;
-	top: 0;
+	top: -5px;
 	font-family: 'Brush Script MT', 'Dancing Script', cursive, sans-serif;
-	font-size: 7.5rem;
-	color: rgba(0, 0, 0, 0.25);
+	font-size: 8rem;
+	color: rgba(0, 0, 0, 0.28);
 	pointer-events: none;
 	user-select: none;
 	transform: rotate(-8deg);
@@ -216,19 +193,19 @@
 }
 
 .onyx-debit-card__chip {
-	width: 50px;
-	height: 40px;
+	width: 52px;
+	height: 42px;
 	background: linear-gradient(135deg, #f5d876 0%, #be9b2d 100%);
 	border-radius: 7px;
 	border: 1px solid #7e6112;
 	position: relative;
-	margin-top: 10px;
+	margin-top: 5px;
 }
 
-.onyx-debit-card__chip-line {
+.onyx-debit-card__chip-grid {
 	position: absolute;
 	inset: 0;
-	border: 1px solid rgba(0, 0, 0, 0.25);
+	border: 1px solid rgba(0, 0, 0, 0.3);
 	border-radius: 6px;
 }
 
@@ -239,7 +216,7 @@
 }
 
 .onyx-debit-card__debit-text {
-	font-size: 1.6rem;
+	font-size: 1.7rem;
 	font-weight: 800;
 	color: #ffffff;
 	letter-spacing: -0.02em;
@@ -252,18 +229,18 @@
 .onyx-debit-card__brand-signature {
 	display: block;
 	font-family: 'Brush Script MT', 'Dancing Script', cursive, sans-serif;
-	font-size: 3.5rem;
-	color: #0d0d0e;
+	font-size: 3.8rem;
+	color: #0a0a0b;
 	line-height: 0.8;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .onyx-debit-card__brand-sub {
 	display: block;
-	font-size: 0.9rem;
+	font-size: 0.9375rem;
 	font-weight: 800;
 	letter-spacing: 0.15em;
-	color: #b08d27;
+	color: var(--onyx-gold-dark);
 	text-transform: uppercase;
 	margin-top: 4px;
 }
@@ -857,7 +834,7 @@
 	}
 
 	.onyx-debit-card {
-		transform: rotate(0) rotateY(0);
+		transform: rotate(-10deg) translateY(0);
 		margin-top: 1rem;
 	}
 
