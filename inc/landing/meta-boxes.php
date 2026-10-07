@@ -2,12 +2,12 @@
 /**
  * Landing Page Custom Meta Boxes Engine & Form Handler
  *
- * Full-featured backend engine registering native WordPress meta boxes for
+ * Premium, modern tabbed admin interface registering native WordPress meta boxes for
  * the Onyx Referral Campaign landing page. Includes image upload controls (wp_enqueue_media),
  * nonces, capability checks, autosave guards, sanitization, asset enqueuing, and AJAX form handler.
  *
  * @package OnyxLandingTheme
- * @version 3.2.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -32,7 +32,7 @@ add_action( 'admin_enqueue_scripts', 'landing_admin_media_assets' );
 function landing_register_onyx_meta_boxes() {
 	add_meta_box(
 		'landing_onyx_page_meta_box',
-		__( 'Onyx Referral Campaign - All Page Section Settings', 'textdomain' ),
+		__( 'Onyx Referral Campaign - Control Panel', 'textdomain' ),
 		'landing_render_onyx_meta_box',
 		'page',
 		'normal',
@@ -42,7 +42,7 @@ function landing_register_onyx_meta_boxes() {
 add_action( 'add_meta_boxes', 'landing_register_onyx_meta_boxes' );
 
 /**
- * Render Admin Meta Box UI with Tabs/Sections & Media Uploader
+ * Render Modern Tabbed Admin Meta Box UI
  *
  * @param WP_Post $post Current post object.
  * @return void
@@ -94,193 +94,480 @@ function landing_render_onyx_meta_box( $post ) {
 
 	$disclaimer     = get_post_meta( $post->ID, '_landing_disclaimer', true ) ?: '*Offer is valid through November 15, 2026. The promotion is available to existing ASB customers with an active Onyx account who refer an individual who has not been an ASB customer within the previous 06 months. The referred individual must meet all applicable account-opening requirements. Limit one referral form per referring customer. Additional terms and conditions may apply.';
 	?>
+
 	<style>
-		.onyx-admin-wrap { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; color: #1e293b; }
-		.onyx-admin-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 16px; margin-bottom: 20px; }
-		.onyx-admin-section-title { font-size: 14px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 14px 0; border-bottom: 2px solid #5d0815; padding-bottom: 6px; }
-		.onyx-field-group { margin-bottom: 14px; }
-		.onyx-field-group:last-child { margin-bottom: 0; }
-		.onyx-field-group label { display: block; font-weight: 600; color: #0f172a; margin-bottom: 4px; }
-		.onyx-field-group input[type="text"], .onyx-field-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; }
-		.onyx-field-group input[type="text"]:focus, .onyx-field-group textarea:focus { border-color: #5d0815; outline: none; box-shadow: 0 0 0 1px #5d0815; }
-		.onyx-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-		.onyx-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
-		
-		/* Image Upload Preview Container */
-		.onyx-media-uploader { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
-		.onyx-media-preview { max-width: 280px; max-height: 180px; border-radius: 8px; border: 1px dashed #cbd5e1; padding: 4px; display: block; background: #ffffff; }
-		.onyx-media-preview img { width: 100%; height: auto; border-radius: 6px; display: block; }
-		.onyx-media-btns { display: flex; gap: 10px; align-items: center; }
+		/* Modern Admin UI Design System */
+		.onyx-panel-wrap {
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+			background: #ffffff;
+			border: 1px solid #e2e8f0;
+			border-radius: 10px;
+			box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+			overflow: hidden;
+			margin-top: 10px;
+		}
+
+		.onyx-panel-header {
+			background: linear-gradient(135deg, #5d0815 0%, #3a040b 100%);
+			padding: 20px 24px;
+			color: #ffffff;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.onyx-panel-title {
+			font-size: 16px;
+			font-weight: 800;
+			letter-spacing: 0.05em;
+			text-transform: uppercase;
+			margin: 0;
+			color: #ffffff;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.onyx-panel-badge {
+			background: #dfb746;
+			color: #1a1a1a;
+			font-size: 11px;
+			font-weight: 800;
+			padding: 3px 10px;
+			border-radius: 20px;
+			text-transform: uppercase;
+		}
+
+		/* Tab Navigation Bar */
+		.onyx-panel-tabs {
+			display: flex;
+			background: #f8fafc;
+			border-bottom: 1px solid #e2e8f0;
+			padding: 0 10px;
+			gap: 4px;
+		}
+
+		.onyx-tab-btn {
+			padding: 12px 18px;
+			font-size: 13px;
+			font-weight: 600;
+			color: #64748b;
+			background: transparent;
+			border: none;
+			border-bottom: 3px solid transparent;
+			cursor: pointer;
+			transition: all 0.2s ease;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.onyx-tab-btn:hover {
+			color: #5d0815;
+			background: rgba(93, 8, 21, 0.03);
+		}
+
+		.onyx-tab-btn.is-active {
+			color: #5d0815;
+			border-bottom-color: #5d0815;
+			font-weight: 700;
+			background: #ffffff;
+		}
+
+		/* Tab Content Panels */
+		.onyx-panel-body {
+			padding: 24px;
+		}
+
+		.onyx-tab-content {
+			display: none;
+		}
+
+		.onyx-tab-content.is-active {
+			display: block;
+			animation: onyxFadeIn 0.3s ease;
+		}
+
+		@keyframes onyxFadeIn {
+			from { opacity: 0; transform: translateY(4px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		/* Card Section Containers */
+		.onyx-card-box {
+			background: #f8fafc;
+			border: 1px solid #e2e8f0;
+			border-radius: 8px;
+			padding: 18px;
+			margin-bottom: 18px;
+		}
+
+		.onyx-card-box:last-child {
+			margin-bottom: 0;
+		}
+
+		.onyx-card-heading {
+			font-size: 13px;
+			font-weight: 700;
+			color: #334155;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			margin: 0 0 14px 0;
+			padding-bottom: 8px;
+			border-bottom: 1px solid #cbd5e1;
+		}
+
+		/* Form Fields */
+		.onyx-field-group {
+			margin-bottom: 14px;
+		}
+
+		.onyx-field-group:last-child {
+			margin-bottom: 0;
+		}
+
+		.onyx-field-group label {
+			display: block;
+			font-weight: 600;
+			color: #0f172a;
+			margin-bottom: 5px;
+			font-size: 13px;
+		}
+
+		.onyx-field-group input[type="text"],
+		.onyx-field-group input[type="url"],
+		.onyx-field-group textarea {
+			width: 100%;
+			padding: 9px 12px;
+			border: 1px solid #cbd5e1;
+			border-radius: 6px;
+			font-size: 13px;
+			background: #ffffff;
+			transition: all 0.2s ease;
+		}
+
+		.onyx-field-group input[type="text"]:focus,
+		.onyx-field-group input[type="url"]:focus,
+		.onyx-field-group textarea:focus {
+			border-color: #5d0815;
+			outline: none;
+			box-shadow: 0 0 0 2px rgba(93, 8, 21, 0.15);
+		}
+
+		.onyx-field-desc {
+			font-size: 12px;
+			color: #64748b;
+			margin: 4px 0 0 0;
+			font-style: italic;
+		}
+
+		/* Grid Layout Helpers */
+		.onyx-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+		.onyx-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+		@media (max-width: 782px) {
+			.onyx-grid-2, .onyx-grid-3 { grid-template-columns: 1fr; }
+			.onyx-panel-tabs { flex-wrap: wrap; }
+		}
+
+		/* Media Uploader Styling */
+		.onyx-media-wrap {
+			display: flex;
+			gap: 16px;
+			align-items: center;
+			margin-top: 8px;
+		}
+
+		.onyx-media-preview-box {
+			width: 200px;
+			height: 120px;
+			border-radius: 8px;
+			border: 2px dashed #cbd5e1;
+			background: #ffffff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+		}
+
+		.onyx-media-preview-box img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
 	</style>
 
-	<div class="onyx-admin-wrap">
-		<!-- Section 1: Header & Hero -->
-		<div class="onyx-admin-section">
-			<div class="onyx-admin-section-title">1. Header & Hero Section</div>
-			<div class="onyx-field-group">
-				<label for="_landing_fdic_text">FDIC Notice Text</label>
-				<input type="text" id="_landing_fdic_text" name="_landing_fdic_text" value="<?php echo esc_attr( $fdic_text ); ?>" />
-			</div>
-			<div class="onyx-grid-2">
-				<div class="onyx-field-group">
-					<label for="_landing_hero_tagline">Hero Tagline</label>
-					<input type="text" id="_landing_hero_tagline" name="_landing_hero_tagline" value="<?php echo esc_attr( $hero_tagline ); ?>" />
-				</div>
-				<div class="onyx-field-group">
-					<label for="_landing_hero_btn_text">Hero Button Text</label>
-					<input type="text" id="_landing_hero_btn_text" name="_landing_hero_btn_text" value="<?php echo esc_attr( $hero_btn_text ); ?>" />
-				</div>
-			</div>
-			<div class="onyx-field-group">
-				<label for="_landing_hero_title">Hero Title (HTML Allowed e.g. &lt;span class="onyx-hero__gold-text"&gt;GET REWARDED.&lt;/span&gt;)</label>
-				<input type="text" id="_landing_hero_title" name="_landing_hero_title" value="<?php echo esc_attr( $hero_title ); ?>" />
-			</div>
+	<div class="onyx-panel-wrap">
+		<!-- Header Banner -->
+		<div class="onyx-panel-header">
+			<h3 class="onyx-panel-title">
+				<span>Onyx Referral Campaign</span>
+			</h3>
+			<span class="onyx-panel-badge">Native Meta Engine v4.0</span>
+		</div>
 
-			<!-- Dynamic Hero Image Uploader -->
-			<div class="onyx-field-group" style="margin-top: 15px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
-				<label>Hero Right Side Custom Card Image (Dynamic Upload)</label>
-				<input type="hidden" id="_landing_hero_image_url" name="_landing_hero_image_url" value="<?php echo esc_url( $hero_img_url ); ?>" />
-				<div class="onyx-media-uploader">
-					<div class="onyx-media-preview" id="onyx_hero_img_preview">
-						<?php if ( ! empty( $hero_img_url ) ) : ?>
-							<img src="<?php echo esc_url( $hero_img_url ); ?>" alt="Hero Card Preview" />
-						<?php else : ?>
-							<span style="color:#94a3b8; font-style:italic; padding: 20px; display:block; text-align:center;">No custom image uploaded (Using dynamic vector card fallback)</span>
-						<?php endif; ?>
+		<!-- Interactive Tab Navigation -->
+		<div class="onyx-panel-tabs">
+			<button type="button" class="onyx-tab-btn is-active" data-tab="tab-hero">
+				<span>🚀 Hero & Header</span>
+			</button>
+			<button type="button" class="onyx-tab-btn" data-tab="tab-form">
+				<span>📋 Referral Form</span>
+			</button>
+			<button type="button" class="onyx-tab-btn" data-tab="tab-rewards">
+				<span>💎 Rewards Section</span>
+			</button>
+			<button type="button" class="onyx-tab-btn" data-tab="tab-how">
+				<span>⚡ How It Works</span>
+			</button>
+			<button type="button" class="onyx-tab-btn" data-tab="tab-support">
+				<span>💬 Support & Legal</span>
+			</button>
+		</div>
+
+		<!-- Panel Content Body -->
+		<div class="onyx-panel-body">
+			
+			<!-- TAB 1: HERO & HEADER -->
+			<div class="onyx-tab-content is-active" id="tab-hero">
+				<div class="onyx-card-box">
+					<div class="onyx-card-heading">Top FDIC Notice & Hero Tagline</div>
+					<div class="onyx-field-group">
+						<label for="_landing_fdic_text">FDIC Notice Text</label>
+						<input type="text" id="_landing_fdic_text" name="_landing_fdic_text" value="<?php echo esc_attr( $fdic_text ); ?>" />
+						<p class="onyx-field-desc">Text displayed in the white bar at the top of the landing page.</p>
 					</div>
-					<div class="onyx-media-btns">
-						<button type="button" class="button button-secondary" id="onyx_upload_hero_img_btn">
-							<?php echo ! empty( $hero_img_url ) ? 'Change Custom Card Image' : 'Upload / Select Custom Card Image'; ?>
-						</button>
-						<button type="button" class="button button-link-delete" id="onyx_remove_hero_img_btn" style="<?php echo empty( $hero_img_url ) ? 'display:none;' : ''; ?>">
-							Remove Image
-						</button>
+					<div class="onyx-grid-2">
+						<div class="onyx-field-group">
+							<label for="_landing_hero_tagline">Hero Tagline</label>
+							<input type="text" id="_landing_hero_tagline" name="_landing_hero_tagline" value="<?php echo esc_attr( $hero_tagline ); ?>" />
+						</div>
+						<div class="onyx-field-group">
+							<label for="_landing_hero_btn_text">Hero Button Text</label>
+							<input type="text" id="_landing_hero_btn_text" name="_landing_hero_btn_text" value="<?php echo esc_attr( $hero_btn_text ); ?>" />
+						</div>
+					</div>
+					<div class="onyx-field-group">
+						<label for="_landing_hero_title">Hero Main Headline (HTML allowed)</label>
+						<input type="text" id="_landing_hero_title" name="_landing_hero_title" value="<?php echo esc_attr( $hero_title ); ?>" />
+						<p class="onyx-field-desc">Default: SHARE ONYX.&lt;br&gt;&lt;span class="onyx-hero__gold-text"&gt;GET REWARDED.&lt;/span&gt;</p>
 					</div>
 				</div>
-				<p class="description" style="margin-top: 6px; font-style: italic; color: #64748b;">
-					Upload a PNG/JPG debit card image to replace the default vector graphic on the right. Leave empty to use the dynamic vector card graphic.
-				</p>
-			</div>
-		</div>
 
-		<!-- Section 2: Referral Form -->
-		<div class="onyx-admin-section">
-			<div class="onyx-admin-section-title">2. Referral Form & Thank You Box</div>
-			<div class="onyx-grid-2">
-				<div class="onyx-field-group">
-					<label for="_landing_form_title">Form Header Title</label>
-					<input type="text" id="_landing_form_title" name="_landing_form_title" value="<?php echo esc_attr( $form_title ); ?>" />
-				</div>
-				<div class="onyx-field-group">
-					<label for="_landing_form_btn_text">Form Submit Button Text</label>
-					<input type="text" id="_landing_form_btn_text" name="_landing_form_btn_text" value="<?php echo esc_attr( $form_btn_text ); ?>" />
-				</div>
-			</div>
-			<div class="onyx-field-group">
-				<label for="_landing_form_consent">Consent Checkbox Text</label>
-				<textarea id="_landing_form_consent" name="_landing_form_consent" rows="2"><?php echo esc_textarea( $form_consent ); ?></textarea>
-			</div>
-			<div class="onyx-grid-2">
-				<div class="onyx-field-group">
-					<label for="_landing_thankyou_title">Thank You Box Heading</label>
-					<input type="text" id="_landing_thankyou_title" name="_landing_thankyou_title" value="<?php echo esc_attr( $thankyou_title ); ?>" />
-				</div>
-				<div class="onyx-field-group">
-					<label for="_landing_thankyou_sub">Thank You Subtitle</label>
-					<input type="text" id="_landing_thankyou_sub" name="_landing_thankyou_sub" value="<?php echo esc_attr( $thankyou_sub ); ?>" />
+				<div class="onyx-card-box">
+					<div class="onyx-card-heading">Hero Right Side Card Graphic (Image Upload)</div>
+					<input type="hidden" id="_landing_hero_image_url" name="_landing_hero_image_url" value="<?php echo esc_url( $hero_img_url ); ?>" />
+					<div class="onyx-media-wrap">
+						<div class="onyx-media-preview-box" id="onyx_hero_img_preview">
+							<?php if ( ! empty( $hero_img_url ) ) : ?>
+								<img src="<?php echo esc_url( $hero_img_url ); ?>" alt="Hero Preview" />
+							<?php else : ?>
+								<span style="color:#94a3b8; font-style:italic; text-align:center; padding:10px; font-size:12px;">Vector Fallback Active</span>
+							<?php endif; ?>
+						</div>
+						<div>
+							<button type="button" class="button button-secondary button-large" id="onyx_upload_hero_img_btn">
+								<?php echo ! empty( $hero_img_url ) ? 'Change Custom Card Image' : 'Upload / Select Custom Card Image'; ?>
+							</button>
+							<button type="button" class="button button-link-delete" id="onyx_remove_hero_img_btn" style="margin-left:10px; <?php echo empty( $hero_img_url ) ? 'display:none;' : ''; ?>">
+								Remove Image
+							</button>
+							<p class="onyx-field-desc" style="margin-top:8px;">
+								Upload a custom PNG/JPG debit card image. If empty, the system automatically renders the metallic vector card visual.
+							</p>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- Section 3: Rewards -->
-		<div class="onyx-admin-section">
-			<div class="onyx-admin-section-title">3. Rewards Section ("More For You. More For Them.")</div>
-			<div class="onyx-grid-2">
-				<div class="onyx-field-group">
-					<label for="_landing_rewards_title">Section Title</label>
-					<input type="text" id="_landing_rewards_title" name="_landing_rewards_title" value="<?php echo esc_attr( $rewards_title ); ?>" />
+			<!-- TAB 2: REFERRAL FORM -->
+			<div class="onyx-tab-content" id="tab-form">
+				<div class="onyx-card-box">
+					<div class="onyx-card-heading">Referral Form Card Settings</div>
+					<div class="onyx-grid-2">
+						<div class="onyx-field-group">
+							<label for="_landing_form_title">Form Header Title</label>
+							<input type="text" id="_landing_form_title" name="_landing_form_title" value="<?php echo esc_attr( $form_title ); ?>" />
+						</div>
+						<div class="onyx-field-group">
+							<label for="_landing_form_btn_text">Submit Button Text</label>
+							<input type="text" id="_landing_form_btn_text" name="_landing_form_btn_text" value="<?php echo esc_attr( $form_btn_text ); ?>" />
+						</div>
+					</div>
+					<div class="onyx-field-group">
+						<label for="_landing_form_consent">Consent Checkbox Copy</label>
+						<textarea id="_landing_form_consent" name="_landing_form_consent" rows="2"><?php echo esc_textarea( $form_consent ); ?></textarea>
+					</div>
 				</div>
-				<div class="onyx-field-group">
-					<label for="_landing_rewards_desc">Description Copy</label>
-					<textarea id="_landing_rewards_desc" name="_landing_rewards_desc" rows="4"><?php echo esc_textarea( $rewards_desc ); ?></textarea>
-				</div>
-			</div>
-			<div class="onyx-grid-3">
-				<div class="onyx-field-group">
-					<label for="_landing_reward1_label">Reward 1 Label</label>
-					<input type="text" id="_landing_reward1_label" name="_landing_reward1_label" value="<?php echo esc_attr( $reward1_label ); ?>" />
-					<label for="_landing_reward1_val" style="margin-top:6px;">Rate Value</label>
-					<input type="text" id="_landing_reward1_val" name="_landing_reward1_val" value="<?php echo esc_attr( $reward1_val ); ?>" />
-					<label for="_landing_reward1_sub" style="margin-top:6px;">Subtext</label>
-					<input type="text" id="_landing_reward1_sub" name="_landing_reward1_sub" value="<?php echo esc_attr( $reward1_sub ); ?>" />
-				</div>
-				<div class="onyx-field-group">
-					<label for="_landing_reward2_label">Reward 2 Label</label>
-					<input type="text" id="_landing_reward2_label" name="_landing_reward2_label" value="<?php echo esc_attr( $reward2_label ); ?>" />
-					<label for="_landing_reward2_val" style="margin-top:6px;">Rate Value</label>
-					<input type="text" id="_landing_reward2_val" name="_landing_reward2_val" value="<?php echo esc_attr( $reward2_val ); ?>" />
-					<label for="_landing_reward2_sub" style="margin-top:6px;">Subtext</label>
-					<input type="text" id="_landing_reward2_sub" name="_landing_reward2_sub" value="<?php echo esc_attr( $reward2_sub ); ?>" />
-				</div>
-			</div>
-		</div>
 
-		<!-- Section 4: How It Works -->
-		<div class="onyx-admin-section">
-			<div class="onyx-admin-section-title">4. "How It Works" Section</div>
-			<div class="onyx-field-group">
-				<label for="_landing_how_title">Section Title</label>
-				<input type="text" id="_landing_how_title" name="_landing_how_title" value="<?php echo esc_attr( $how_title ); ?>" />
-			</div>
-			<div class="onyx-grid-3">
-				<div class="onyx-field-group">
-					<label for="_landing_step1_title">Step 01 Title</label>
-					<input type="text" id="_landing_step1_title" name="_landing_step1_title" value="<?php echo esc_attr( $step1_title ); ?>" />
-					<label for="_landing_step1_desc" style="margin-top:6px;">Step 01 Description</label>
-					<textarea id="_landing_step1_desc" name="_landing_step1_desc" rows="3"><?php echo esc_textarea( $step1_desc ); ?></textarea>
-				</div>
-				<div class="onyx-field-group">
-					<label for="_landing_step2_title">Step 02 Title</label>
-					<input type="text" id="_landing_step2_title" name="_landing_step2_title" value="<?php echo esc_attr( $step2_title ); ?>" />
-					<label for="_landing_step2_desc" style="margin-top:6px;">Step 02 Description</label>
-					<textarea id="_landing_step2_desc" name="_landing_step2_desc" rows="3"><?php echo esc_textarea( $step2_desc ); ?></textarea>
-				</div>
-				<div class="onyx-field-group">
-					<label for="_landing_step3_title">Step 03 Title</label>
-					<input type="text" id="_landing_step3_title" name="_landing_step3_title" value="<?php echo esc_attr( $step3_title ); ?>" />
-					<label for="_landing_step3_desc" style="margin-top:6px;">Step 03 Description</label>
-					<textarea id="_landing_step3_desc" name="_landing_step3_desc" rows="3"><?php echo esc_textarea( $step3_desc ); ?></textarea>
+				<div class="onyx-card-box">
+					<div class="onyx-card-heading">Thank You & Confirmation Settings</div>
+					<div class="onyx-grid-2">
+						<div class="onyx-field-group">
+							<label for="_landing_thankyou_title">Thank You Heading</label>
+							<input type="text" id="_landing_thankyou_title" name="_landing_thankyou_title" value="<?php echo esc_attr( $thankyou_title ); ?>" />
+						</div>
+						<div class="onyx-field-group">
+							<label for="_landing_thankyou_sub">Thank You Subtitle</label>
+							<input type="text" id="_landing_thankyou_sub" name="_landing_thankyou_sub" value="<?php echo esc_attr( $thankyou_sub ); ?>" />
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- Section 5: Support & Disclaimer -->
-		<div class="onyx-admin-section">
-			<div class="onyx-admin-section-title">5. Support Boxes & Footer Disclaimer</div>
-			<div class="onyx-grid-2">
-				<div class="onyx-field-group">
-					<label for="_landing_support1_title">Support Box 1 Title</label>
-					<input type="text" id="_landing_support1_title" name="_landing_support1_title" value="<?php echo esc_attr( $support1_title ); ?>" />
-					<label for="_landing_support1_desc" style="margin-top:6px;">Support Box 1 Text</label>
-					<textarea id="_landing_support1_desc" name="_landing_support1_desc" rows="3"><?php echo esc_textarea( $support1_desc ); ?></textarea>
+			<!-- TAB 3: REWARDS SECTION -->
+			<div class="onyx-tab-content" id="tab-rewards">
+				<div class="onyx-card-box">
+					<div class="onyx-card-heading">"More For You. More For Them." Copy</div>
+					<div class="onyx-grid-2">
+						<div class="onyx-field-group">
+							<label for="_landing_rewards_title">Section Title</label>
+							<input type="text" id="_landing_rewards_title" name="_landing_rewards_title" value="<?php echo esc_attr( $rewards_title ); ?>" />
+						</div>
+						<div class="onyx-field-group">
+							<label for="_landing_rewards_desc">Description Text</label>
+							<textarea id="_landing_rewards_desc" name="_landing_rewards_desc" rows="4"><?php echo esc_textarea( $rewards_desc ); ?></textarea>
+						</div>
+					</div>
 				</div>
-				<div class="onyx-field-group">
-					<label for="_landing_support2_title">Support Box 2 Title</label>
-					<input type="text" id="_landing_support2_title" name="_landing_support2_title" value="<?php echo esc_attr( $support2_title ); ?>" />
-					<label for="_landing_support2_desc" style="margin-top:6px;">Support Box 2 Text</label>
-					<textarea id="_landing_support2_desc" name="_landing_support2_desc" rows="3"><?php echo esc_textarea( $support2_desc ); ?></textarea>
+
+				<div class="onyx-card-box">
+					<div class="onyx-card-heading">Stat Card Rate Increases (0.50%)</div>
+					<div class="onyx-grid-2">
+						<!-- Stat Card 1 -->
+						<div style="background:#ffffff; border:1px solid #cbd5e1; padding:14px; border-radius:6px;">
+							<div style="font-weight:700; color:#5d0815; margin-bottom:8px;">Stat Card 1 (Referrer)</div>
+							<div class="onyx-field-group">
+								<label for="_landing_reward1_label">Label</label>
+								<input type="text" id="_landing_reward1_label" name="_landing_reward1_label" value="<?php echo esc_attr( $reward1_label ); ?>" />
+							</div>
+							<div class="onyx-field-group">
+								<label for="_landing_reward1_val">Rate Value</label>
+								<input type="text" id="_landing_reward1_val" name="_landing_reward1_val" value="<?php echo esc_attr( $reward1_val ); ?>" />
+							</div>
+							<div class="onyx-field-group">
+								<label for="_landing_reward1_sub">Subtext</label>
+								<input type="text" id="_landing_reward1_sub" name="_landing_reward1_sub" value="<?php echo esc_attr( $reward1_sub ); ?>" />
+							</div>
+						</div>
+
+						<!-- Stat Card 2 -->
+						<div style="background:#ffffff; border:1px solid #cbd5e1; padding:14px; border-radius:6px;">
+							<div style="font-weight:700; color:#5d0815; margin-bottom:8px;">Stat Card 2 (Friend)</div>
+							<div class="onyx-field-group">
+								<label for="_landing_reward2_label">Label</label>
+								<input type="text" id="_landing_reward2_label" name="_landing_reward2_label" value="<?php echo esc_attr( $reward2_label ); ?>" />
+							</div>
+							<div class="onyx-field-group">
+								<label for="_landing_reward2_val">Rate Value</label>
+								<input type="text" id="_landing_reward2_val" name="_landing_reward2_val" value="<?php echo esc_attr( $reward2_val ); ?>" />
+							</div>
+							<div class="onyx-field-group">
+								<label for="_landing_reward2_sub">Subtext</label>
+								<input type="text" id="_landing_reward2_sub" name="_landing_reward2_sub" value="<?php echo esc_attr( $reward2_sub ); ?>" />
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="onyx-field-group" style="margin-top:14px;">
-				<label for="_landing_disclaimer">Footer Legal Disclaimer Fine-Print Text</label>
-				<textarea id="_landing_disclaimer" name="_landing_disclaimer" rows="4"><?php echo esc_textarea( $disclaimer ); ?></textarea>
+
+			<!-- TAB 4: HOW IT WORKS -->
+			<div class="onyx-tab-content" id="tab-how">
+				<div class="onyx-card-box">
+					<div class="onyx-card-heading">"How It Works" Section Title</div>
+					<div class="onyx-field-group">
+						<label for="_landing_how_title">Section Title</label>
+						<input type="text" id="_landing_how_title" name="_landing_how_title" value="<?php echo esc_attr( $how_title ); ?>" />
+					</div>
+				</div>
+
+				<div class="onyx-grid-3">
+					<div class="onyx-card-box">
+						<div class="onyx-card-heading">Step 01</div>
+						<div class="onyx-field-group">
+							<label for="_landing_step1_title">Title</label>
+							<input type="text" id="_landing_step1_title" name="_landing_step1_title" value="<?php echo esc_attr( $step1_title ); ?>" />
+						</div>
+						<div class="onyx-field-group">
+							<label for="_landing_step1_desc">Description</label>
+							<textarea id="_landing_step1_desc" name="_landing_step1_desc" rows="3"><?php echo esc_textarea( $step1_desc ); ?></textarea>
+						</div>
+					</div>
+
+					<div class="onyx-card-box">
+						<div class="onyx-card-heading">Step 02</div>
+						<div class="onyx-field-group">
+							<label for="_landing_step2_title">Title</label>
+							<input type="text" id="_landing_step2_title" name="_landing_step2_title" value="<?php echo esc_attr( $step2_title ); ?>" />
+						</div>
+						<div class="onyx-field-group">
+							<label for="_landing_step2_desc">Description</label>
+							<textarea id="_landing_step2_desc" name="_landing_step2_desc" rows="3"><?php echo esc_textarea( $step2_desc ); ?></textarea>
+						</div>
+					</div>
+
+					<div class="onyx-card-box">
+						<div class="onyx-card-heading">Step 03</div>
+						<div class="onyx-field-group">
+							<label for="_landing_step3_title">Title</label>
+							<input type="text" id="_landing_step3_title" name="_landing_step3_title" value="<?php echo esc_attr( $step3_title ); ?>" />
+						</div>
+						<div class="onyx-field-group">
+							<label for="_landing_step3_desc">Description</label>
+							<textarea id="_landing_step3_desc" name="_landing_step3_desc" rows="3"><?php echo esc_textarea( $step3_desc ); ?></textarea>
+						</div>
+					</div>
+				</div>
 			</div>
+
+			<!-- TAB 5: SUPPORT & LEGAL -->
+			<div class="onyx-tab-content" id="tab-support">
+				<div class="onyx-card-box">
+					<div class="onyx-card-heading">Support & Questions Boxes</div>
+					<div class="onyx-grid-2">
+						<div class="onyx-field-group">
+							<label for="_landing_support1_title">Support Box 1 Title</label>
+							<input type="text" id="_landing_support1_title" name="_landing_support1_title" value="<?php echo esc_attr( $support1_title ); ?>" />
+							<label for="_landing_support1_desc" style="margin-top:6px;">Support Box 1 Description</label>
+							<textarea id="_landing_support1_desc" name="_landing_support1_desc" rows="3"><?php echo esc_textarea( $support1_desc ); ?></textarea>
+						</div>
+						<div class="onyx-field-group">
+							<label for="_landing_support2_title">Support Box 2 Title</label>
+							<input type="text" id="_landing_support2_title" name="_landing_support2_title" value="<?php echo esc_attr( $support2_title ); ?>" />
+							<label for="_landing_support2_desc" style="margin-top:6px;">Support Box 2 Description</label>
+							<textarea id="_landing_support2_desc" name="_landing_support2_desc" rows="3"><?php echo esc_textarea( $support2_desc ); ?></textarea>
+						</div>
+					</div>
+				</div>
+
+				<div class="onyx-card-box">
+					<div class="onyx-card-heading">Footer Legal Disclaimer (Fine Print)</div>
+					<div class="onyx-field-group">
+						<label for="_landing_disclaimer">Disclaimer Fine Print Text</label>
+						<textarea id="_landing_disclaimer" name="_landing_disclaimer" rows="4"><?php echo esc_textarea( $disclaimer ); ?></textarea>
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 
-	<!-- JavaScript for Native WordPress Media Uploader -->
+	<!-- Tab Switching & Media Uploader JS -->
 	<script>
 	jQuery(document).ready(function($){
+		// Tab Switching Logic
+		$('.onyx-tab-btn').click(function(e){
+			e.preventDefault();
+			var tabId = $(this).data('tab');
+			
+			$('.onyx-tab-btn').removeClass('is-active');
+			$(this).addClass('is-active');
+			
+			$('.onyx-tab-content').removeClass('is-active');
+			$('#' + tabId).addClass('is-active');
+		});
+
+		// Native Media Uploader Logic
 		var mediaUploader;
 		$('#onyx_upload_hero_img_btn').click(function(e) {
 			e.preventDefault();
@@ -306,7 +593,7 @@ function landing_render_onyx_meta_box( $post ) {
 		$('#onyx_remove_hero_img_btn').click(function(e) {
 			e.preventDefault();
 			$('#_landing_hero_image_url').val('');
-			$('#onyx_hero_img_preview').html('<span style="color:#94a3b8; font-style:italic; padding: 20px; display:block; text-align:center;">No custom image uploaded (Using dynamic vector card fallback)</span>');
+			$('#onyx_hero_img_preview').html('<span style="color:#94a3b8; font-style:italic; text-align:center; padding:10px; font-size:12px;">Vector Fallback Active</span>');
 			$('#onyx_upload_hero_img_btn').text('Upload / Select Custom Card Image');
 			$(this).hide();
 		});
@@ -418,7 +705,7 @@ function landing_enqueue_onyx_assets() {
 			$css_file_uri  = get_template_directory_uri() . $css_relative_path;
 		}
 
-		$version = file_exists( $css_file_path ) ? filemtime( $css_file_path ) : '3.2.0';
+		$version = file_exists( $css_file_path ) ? filemtime( $css_file_path ) : '4.0.0';
 
 		wp_enqueue_style(
 			'landing-onyx-sections-css',
@@ -429,7 +716,7 @@ function landing_enqueue_onyx_assets() {
 		);
 
 		// Localize script data for AJAX referral form submission
-		wp_register_script( 'landing-onyx-ajax-script', false, array( 'jquery' ), '3.2.0', true );
+		wp_register_script( 'landing-onyx-ajax-script', false, array( 'jquery' ), '4.0.0', true );
 		wp_enqueue_script( 'landing-onyx-ajax-script' );
 
 		$script_vars = array(
