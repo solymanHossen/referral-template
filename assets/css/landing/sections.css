@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@500;700;800;900&display=swap');
+
 /* ==========================================================================
    Onyx Referral Campaign - Exact Pixel-Perfect BEM Architecture
    ========================================================================== */
@@ -14,7 +16,7 @@
 	--onyx-text-white: #ffffff;
 	--onyx-text-muted: rgba(255, 255, 255, 0.78);
 	--onyx-text-dark: #1e293b;
-	--onyx-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--onyx-font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 	--onyx-container-width: 1140px;
 	--onyx-radius: 6px;
 	--onyx-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -176,23 +178,24 @@
 	filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.75));
 }
 
-/* Metallic Vector Debit Card Visual (Fallback) */
+/* Metallic Vector Debit Card Visual (Fallback - Silver Onyx Card) */
 .onyx-debit-card {
 	width: 100%;
 	max-width: 450px;
 	height: 265px;
 	border-radius: 16px;
-	background: linear-gradient(135deg, #595c63 0%, #2f3136 45%, #151619 100%);
-	border: 1.5px solid rgba(255, 255, 255, 0.3);
-	box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+	background: linear-gradient(135deg, #e6e8ec 0%, #b6babf 40%, #8e939c 100%);
+	border: 1px solid rgba(255, 255, 255, 0.6);
+	box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 10px 20px rgba(0, 0, 0, 0.3), inset 0 1px 3px rgba(255, 255, 255, 0.8);
 	transform: rotate(-14deg) translateY(-10px);
 	position: relative;
 	overflow: hidden;
-	transition: transform 0.4s ease;
+	transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .onyx-debit-card:hover {
 	transform: rotate(-8deg) scale(1.03);
+	box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
 }
 
 .onyx-debit-card__surface {
@@ -206,11 +209,11 @@
 
 .onyx-debit-card__watermark-text {
 	position: absolute;
-	right: 10px;
-	top: -5px;
-	font-family: 'Brush Script MT', 'Dancing Script', cursive, sans-serif;
-	font-size: 8rem;
-	color: rgba(0, 0, 0, 0.28);
+	right: 15px;
+	top: -10px;
+	font-family: 'Dancing Script', 'Brush Script MT', 'Segoe Script', cursive, sans-serif;
+	font-size: 8.5rem;
+	color: rgba(30, 32, 38, 0.22);
 	pointer-events: none;
 	user-select: none;
 	transform: rotate(-8deg);
@@ -225,12 +228,13 @@
 	border: 1px solid #7e6112;
 	position: relative;
 	margin-top: 5px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .onyx-debit-card__chip-grid {
 	position: absolute;
 	inset: 0;
-	border: 1px solid rgba(0, 0, 0, 0.3);
+	border: 1px solid rgba(0, 0, 0, 0.25);
 	border-radius: 6px;
 }
 
@@ -238,13 +242,15 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
+	z-index: 2;
 }
 
 .onyx-debit-card__debit-text {
 	font-size: 1.7rem;
-	font-weight: 800;
+	font-weight: 900;
 	color: #ffffff;
 	letter-spacing: -0.02em;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .onyx-debit-card__brand {
@@ -253,11 +259,11 @@
 
 .onyx-debit-card__brand-signature {
 	display: block;
-	font-family: 'Brush Script MT', 'Dancing Script', cursive, sans-serif;
+	font-family: 'Dancing Script', 'Brush Script MT', 'Segoe Script', cursive, sans-serif;
 	font-size: 3.8rem;
-	color: #0a0a0b;
+	color: #111215;
 	line-height: 0.8;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
 .onyx-debit-card__brand-sub {
@@ -265,7 +271,7 @@
 	font-size: 0.9375rem;
 	font-weight: 800;
 	letter-spacing: 0.15em;
-	color: var(--onyx-gold-dark);
+	color: #634f18;
 	text-transform: uppercase;
 	margin-top: 4px;
 }
@@ -297,11 +303,11 @@
 	position: relative;
 	z-index: 10;
 	margin-top: -65px;
-	background: linear-gradient(180deg, #580814 0%, #42040c 100%);
+	background: linear-gradient(180deg, #630715 0%, #3e030b 100%);
 	border-radius: 12px;
-	border: 1px solid rgba(212, 175, 55, 0.35);
-	box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
-	padding: 2.5rem 2rem;
+	border: 1px solid rgba(223, 183, 70, 0.35);
+	box-shadow: 0 25px 55px rgba(0, 0, 0, 0.45);
+	padding: 3rem 2.5rem;
 	color: #ffffff;
 }
 
@@ -309,20 +315,21 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 1rem;
-	margin-bottom: 2rem;
+	gap: 1.25rem;
+	margin-bottom: 2.25rem;
 }
 
 .onyx-form-card__line {
-	height: 1px;
-	width: 60px;
-	background: var(--onyx-gold);
+	height: 1.5px;
+	width: 80px;
+	background: #dfb746;
+	display: block;
 }
 
 .onyx-form-card__title {
 	font-size: 1.5rem;
 	font-weight: 800;
-	letter-spacing: 0.12em;
+	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	color: #ffffff;
 	margin: 0;
@@ -330,13 +337,13 @@
 }
 
 .onyx-form__group {
-	margin-bottom: 1.75rem;
+	margin-bottom: 1.85rem;
 }
 
 .onyx-form__group-label {
 	font-size: 0.8125rem;
 	font-weight: 800;
-	letter-spacing: 0.1em;
+	letter-spacing: 0.12em;
 	text-transform: uppercase;
 	color: #ffffff;
 	margin: 0 0 0.75rem 0;
@@ -345,39 +352,40 @@
 .onyx-form__row {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 1rem;
+	gap: 1.1rem;
 }
 
 .onyx-form__field input {
 	width: 100%;
-	background-color: #45050e;
-	border: 1px solid rgba(255, 255, 255, 0.25);
-	border-radius: 4px;
-	padding: 12px 14px;
+	background-color: #40040c;
+	border: 1px solid rgba(255, 255, 255, 0.22);
+	border-radius: 5px;
+	padding: 13px 15px;
 	color: #ffffff;
 	font-size: 0.875rem;
 	transition: var(--onyx-transition);
 }
 
 .onyx-form__field input::placeholder {
-	color: rgba(255, 255, 255, 0.55);
+	color: rgba(255, 255, 255, 0.58);
 	font-style: italic;
 }
 
 .onyx-form__field input:focus {
-	border-color: var(--onyx-gold);
+	border-color: #dfb746;
 	outline: none;
-	box-shadow: 0 0 0 1px var(--onyx-gold);
+	box-shadow: 0 0 0 1px #dfb746;
+	background-color: #4a050e;
 }
 
 .onyx-form__consent-wrapper {
-	margin: 1.5rem 0;
+	margin: 1.75rem 0 2.25rem;
 }
 
 .onyx-form__checkbox-label {
 	display: flex;
 	align-items: flex-start;
-	gap: 10px;
+	gap: 12px;
 	cursor: pointer;
 	user-select: none;
 }
@@ -389,44 +397,44 @@
 }
 
 .onyx-form__checkbox-custom {
-	width: 18px;
-	height: 18px;
-	border: 1px solid var(--onyx-gold);
+	width: 19px;
+	height: 19px;
+	border: 1px solid #dfb746;
 	border-radius: 3px;
-	background-color: #45050e;
+	background-color: #40040c;
 	flex-shrink: 0;
-	margin-top: 2px;
+	margin-top: 1px;
 	position: relative;
 	transition: var(--onyx-transition);
 }
 
 .onyx-form__checkbox-label input[type="checkbox"]:checked ~ .onyx-form__checkbox-custom {
-	background-color: var(--onyx-gold);
+	background-color: #dfb746;
 }
 
 .onyx-form__checkbox-label input[type="checkbox"]:checked ~ .onyx-form__checkbox-custom::after {
 	content: "";
 	position: absolute;
-	left: 5px;
+	left: 6px;
 	top: 2px;
 	width: 5px;
-	height: 9px;
-	border: solid #1a1a1a;
-	border-width: 0 2px 2px 0;
+	height: 10px;
+	border: solid #141619;
+	border-width: 0 2.5px 2.5px 0;
 	transform: rotate(45deg);
 }
 
 .onyx-form__consent-text {
 	font-size: 0.8125rem;
-	line-height: 1.5;
-	color: rgba(255, 255, 255, 0.85);
+	line-height: 1.55;
+	color: rgba(255, 255, 255, 0.9);
 	font-style: italic;
 }
 
 .onyx-form__submit-wrapper {
 	display: flex;
 	justify-content: center;
-	margin-top: 2rem;
+	margin-top: 2.25rem;
 }
 
 .onyx-form__submit-btn {
@@ -434,23 +442,24 @@
 	align-items: center;
 	justify-content: center;
 	gap: 10px;
-	padding: 14px 44px;
-	background: var(--onyx-gold-gradient);
-	color: #1a1a1a;
+	padding: 13px 44px;
+	background: linear-gradient(135deg, #e4c463 0%, #b89124 100%);
+	color: #141619;
 	border: none;
-	border-radius: 30px;
+	border-radius: 6px;
 	font-size: 0.9375rem;
 	font-weight: 800;
-	letter-spacing: 0.1em;
+	letter-spacing: 0.12em;
 	text-transform: uppercase;
 	cursor: pointer;
 	transition: var(--onyx-transition);
-	box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+	box-shadow: 0 4px 15px rgba(223, 183, 70, 0.35);
 }
 
 .onyx-form__submit-btn:hover {
 	transform: translateY(-2px);
-	box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+	background: linear-gradient(135deg, #ebd073 0%, #c49d28 100%);
+	box-shadow: 0 8px 25px rgba(223, 183, 70, 0.5);
 }
 
 .onyx-form__alert {
