@@ -1,0 +1,17 @@
+/*
+Theme Name: Onyx Referral Campaign Theme
+Theme URI: https://example.com/onyx-referral
+Author: Senior WordPress Architect
+Author URI: https://example.com
+Description: World-class, highly scalable, dynamic modular landing page theme built with native WordPress APIs and pure BEM CSS architecture.
+Version: 1.0.0
+License: GNU General Public License v2 or later
+Text Domain: onyx-landing
+*/
+
+/* Reset & Scope Isolation */
+html, body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
