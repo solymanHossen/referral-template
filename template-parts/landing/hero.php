@@ -2,16 +2,16 @@
 /**
  * Template Part: Onyx Hero Section View Module
  *
- * Renders the exact Onyx Referral Campaign Hero Section matching the target design:
+ * Renders the exact Onyx Referral Campaign Hero Section with dynamic image support:
  * - Tagline: "THE ONYX REFERRAL CAMPAIGN"
  * - Title: White "SHARE ONYX." + Gold "GET REWARDED."
  * - CTA Button: Dark Crimson with Gold Border ("REFER NOW")
  * - Background: Deep Crimson Red with crisp gold diagonal geometric lines
- * - Card Visual: Counter-clockwise tilted (~ -14deg) Metallic Debit Card with Chip, "debit", "Onyx" signature & "By ASB"
+ * - Dynamic Card Visual: Renders uploaded custom PNG/JPG image or vector card fallback
  * - Bottom: Smooth convex wave curve transition into white background
  *
  * @package OnyxLandingTheme
- * @version 3.1.0
+ * @version 3.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,10 +22,11 @@ $post_id      = get_the_ID();
 $hero_tagline = get_post_meta( $post_id, '_landing_hero_tagline', true ) ?: 'THE ONYX REFERRAL CAMPAIGN';
 $hero_title   = get_post_meta( $post_id, '_landing_hero_title', true ) ?: 'SHARE ONYX.<br><span class="onyx-hero__gold-text">GET REWARDED.</span>';
 $hero_btn     = get_post_meta( $post_id, '_landing_hero_btn_text', true ) ?: 'REFER NOW';
+$hero_img     = get_post_meta( $post_id, '_landing_hero_image_url', true );
 ?>
 
 <section class="onyx-hero" aria-labelledby="onyx-hero-title">
-	<!-- Background Diagonal Gold Geometric Lines (Pixel Match) -->
+	<!-- Background Diagonal Gold Geometric Lines -->
 	<div class="onyx-hero__bg-lines" aria-hidden="true">
 		<svg width="100%" height="100%" viewBox="0 0 1440 550" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
 			<!-- Bottom-Left Diagonal Accent Line -->
@@ -63,28 +64,34 @@ $hero_btn     = get_post_meta( $post_id, '_landing_hero_btn_text', true ) ?: 'RE
 			<?php endif; ?>
 		</div>
 
-		<!-- Right: Realistic Vector Metallic Onyx Debit Card -->
+		<!-- Right: Dynamic Hero Card Image or Vector Fallback -->
 		<div class="onyx-hero__card-wrapper" aria-hidden="true">
-			<div class="onyx-debit-card">
-				<div class="onyx-debit-card__surface">
-					<!-- Cursive Script Watermark Signature in Background -->
-					<div class="onyx-debit-card__watermark-text">Onyx</div>
-					
-					<!-- Gold EMV Microchip -->
-					<div class="onyx-debit-card__chip">
-						<div class="onyx-debit-card__chip-grid"></div>
-					</div>
-					
-					<!-- Card Footer: "debit" & Signature "Onyx By ASB" -->
-					<div class="onyx-debit-card__footer">
-						<span class="onyx-debit-card__debit-text">debit</span>
-						<div class="onyx-debit-card__brand">
-							<span class="onyx-debit-card__brand-signature">Onyx</span>
-							<span class="onyx-debit-card__brand-sub">By ASB</span>
+			<?php if ( ! empty( $hero_img ) ) : ?>
+				<div class="onyx-hero__card-image-wrap">
+					<img src="<?php echo esc_url( $hero_img ); ?>" alt="Onyx Debit Card" class="onyx-hero__card-custom-img" />
+				</div>
+			<?php else : ?>
+				<div class="onyx-debit-card">
+					<div class="onyx-debit-card__surface">
+						<!-- Cursive Script Watermark Signature in Background -->
+						<div class="onyx-debit-card__watermark-text">Onyx</div>
+						
+						<!-- Gold EMV Microchip -->
+						<div class="onyx-debit-card__chip">
+							<div class="onyx-debit-card__chip-grid"></div>
+						</div>
+						
+						<!-- Card Footer: "debit" & Signature "Onyx By ASB" -->
+						<div class="onyx-debit-card__footer">
+							<span class="onyx-debit-card__debit-text">debit</span>
+							<div class="onyx-debit-card__brand">
+								<span class="onyx-debit-card__brand-signature">Onyx</span>
+								<span class="onyx-debit-card__brand-sub">By ASB</span>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			<?php endif; ?>
 		</div>
 	</div>
 

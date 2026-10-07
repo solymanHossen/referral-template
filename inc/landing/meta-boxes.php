@@ -3,16 +3,26 @@
  * Landing Page Custom Meta Boxes Engine & Form Handler
  *
  * Full-featured backend engine registering native WordPress meta boxes for
- * the Onyx Referral Campaign landing page. Includes nonces, capability checks,
- * autosave guards, sanitization, frontend asset enqueuing, and AJAX form handler.
+ * the Onyx Referral Campaign landing page. Includes image upload controls (wp_enqueue_media),
+ * nonces, capability checks, autosave guards, sanitization, asset enqueuing, and AJAX form handler.
  *
- * @package ModularLandingPage
- * @version 2.0.0
+ * @package OnyxLandingTheme
+ * @version 3.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+
+/**
+ * Enqueue Media Uploader Assets in Admin
+ */
+function landing_admin_media_assets( $hook ) {
+	if ( 'post.php' === $hook || 'post-new.php' === $hook ) {
+		wp_enqueue_media();
+	}
+}
+add_action( 'admin_enqueue_scripts', 'landing_admin_media_assets' );
 
 /**
  * Register Meta Box for Onyx Landing Page Settings
@@ -32,7 +42,7 @@ function landing_register_onyx_meta_boxes() {
 add_action( 'add_meta_boxes', 'landing_register_onyx_meta_boxes' );
 
 /**
- * Render Admin Meta Box UI with Tabs/Sections
+ * Render Admin Meta Box UI with Tabs/Sections & Media Uploader
  *
  * @param WP_Post $post Current post object.
  * @return void
@@ -44,8 +54,9 @@ function landing_render_onyx_meta_box( $post ) {
 	// Fetch all meta fields with defaults
 	$fdic_text      = get_post_meta( $post->ID, '_landing_fdic_text', true ) ?: 'FDIC-Insured - Backed by the full faith and credit of the U.S. Government';
 	$hero_tagline   = get_post_meta( $post->ID, '_landing_hero_tagline', true ) ?: 'THE ONYX REFERRAL CAMPAIGN';
-	$hero_title     = get_post_meta( $post->ID, '_landing_hero_title', true ) ?: 'SHARE ONYX.<br>GET REWARDED.';
+	$hero_title     = get_post_meta( $post->ID, '_landing_hero_title', true ) ?: 'SHARE ONYX.<br><span class="onyx-hero__gold-text">GET REWARDED.</span>';
 	$hero_btn_text  = get_post_meta( $post->ID, '_landing_hero_btn_text', true ) ?: 'REFER NOW';
+	$hero_img_url   = get_post_meta( $post->ID, '_landing_hero_image_url', true );
 
 	$form_title     = get_post_meta( $post->ID, '_landing_form_title', true ) ?: 'REFER A FRIEND';
 	$form_consent   = get_post_meta( $post->ID, '_landing_form_consent', true ) ?: 'I confirm that I have the referral\'s consent to share their information with ASB for the purpose of the Onyx referral program.';
@@ -86,14 +97,20 @@ function landing_render_onyx_meta_box( $post ) {
 	<style>
 		.onyx-admin-wrap { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; color: #1e293b; }
 		.onyx-admin-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 16px; margin-bottom: 20px; }
-		.onyx-admin-section-title { font-size: 14px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 14px 0; border-bottom: 2px solid #850c1e; padding-bottom: 6px; }
+		.onyx-admin-section-title { font-size: 14px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 14px 0; border-bottom: 2px solid #5d0815; padding-bottom: 6px; }
 		.onyx-field-group { margin-bottom: 14px; }
 		.onyx-field-group:last-child { margin-bottom: 0; }
 		.onyx-field-group label { display: block; font-weight: 600; color: #0f172a; margin-bottom: 4px; }
 		.onyx-field-group input[type="text"], .onyx-field-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; }
-		.onyx-field-group input[type="text"]:focus, .onyx-field-group textarea:focus { border-color: #850c1e; outline: none; box-shadow: 0 0 0 1px #850c1e; }
+		.onyx-field-group input[type="text"]:focus, .onyx-field-group textarea:focus { border-color: #5d0815; outline: none; box-shadow: 0 0 0 1px #5d0815; }
 		.onyx-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 		.onyx-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+		
+		/* Image Upload Preview Container */
+		.onyx-media-uploader { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+		.onyx-media-preview { max-width: 280px; max-height: 180px; border-radius: 8px; border: 1px dashed #cbd5e1; padding: 4px; display: block; background: #ffffff; }
+		.onyx-media-preview img { width: 100%; height: auto; border-radius: 6px; display: block; }
+		.onyx-media-btns { display: flex; gap: 10px; align-items: center; }
 	</style>
 
 	<div class="onyx-admin-wrap">
@@ -115,8 +132,34 @@ function landing_render_onyx_meta_box( $post ) {
 				</div>
 			</div>
 			<div class="onyx-field-group">
-				<label for="_landing_hero_title">Hero Title (HTML Allowed e.g. &lt;br&gt;)</label>
+				<label for="_landing_hero_title">Hero Title (HTML Allowed e.g. &lt;span class="onyx-hero__gold-text"&gt;GET REWARDED.&lt;/span&gt;)</label>
 				<input type="text" id="_landing_hero_title" name="_landing_hero_title" value="<?php echo esc_attr( $hero_title ); ?>" />
+			</div>
+
+			<!-- Dynamic Hero Image Uploader -->
+			<div class="onyx-field-group" style="margin-top: 15px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+				<label>Hero Right Side Custom Card Image (Dynamic Upload)</label>
+				<input type="hidden" id="_landing_hero_image_url" name="_landing_hero_image_url" value="<?php echo esc_url( $hero_img_url ); ?>" />
+				<div class="onyx-media-uploader">
+					<div class="onyx-media-preview" id="onyx_hero_img_preview">
+						<?php if ( ! empty( $hero_img_url ) ) : ?>
+							<img src="<?php echo esc_url( $hero_img_url ); ?>" alt="Hero Card Preview" />
+						<?php else : ?>
+							<span style="color:#94a3b8; font-style:italic; padding: 20px; display:block; text-align:center;">No custom image uploaded (Using dynamic vector card fallback)</span>
+						<?php endif; ?>
+					</div>
+					<div class="onyx-media-btns">
+						<button type="button" class="button button-secondary" id="onyx_upload_hero_img_btn">
+							<?php echo ! empty( $hero_img_url ) ? 'Change Custom Card Image' : 'Upload / Select Custom Card Image'; ?>
+						</button>
+						<button type="button" class="button button-link-delete" id="onyx_remove_hero_img_btn" style="<?php echo empty( $hero_img_url ) ? 'display:none;' : ''; ?>">
+							Remove Image
+						</button>
+					</div>
+				</div>
+				<p class="description" style="margin-top: 6px; font-style: italic; color: #64748b;">
+					Upload a PNG/JPG debit card image to replace the default vector graphic on the right. Leave empty to use the dynamic vector card graphic.
+				</p>
 			</div>
 		</div>
 
@@ -234,26 +277,73 @@ function landing_render_onyx_meta_box( $post ) {
 			</div>
 		</div>
 	</div>
+
+	<!-- JavaScript for Native WordPress Media Uploader -->
+	<script>
+	jQuery(document).ready(function($){
+		var mediaUploader;
+		$('#onyx_upload_hero_img_btn').click(function(e) {
+			e.preventDefault();
+			if (mediaUploader) {
+				mediaUploader.open();
+				return;
+			}
+			mediaUploader = wp.media({
+				title: 'Select Custom Hero Card Image',
+				button: { text: 'Use This Card Image' },
+				multiple: false
+			});
+			mediaUploader.on('select', function() {
+				var attachment = mediaUploader.state().get('selection').first().toJSON();
+				$('#_landing_hero_image_url').val(attachment.url);
+				$('#onyx_hero_img_preview').html('<img src="' + attachment.url + '" alt="Hero Preview" />');
+				$('#onyx_upload_hero_img_btn').text('Change Custom Card Image');
+				$('#onyx_remove_hero_img_btn').show();
+			});
+			mediaUploader.open();
+		});
+
+		$('#onyx_remove_hero_img_btn').click(function(e) {
+			e.preventDefault();
+			$('#_landing_hero_image_url').val('');
+			$('#onyx_hero_img_preview').html('<span style="color:#94a3b8; font-style:italic; padding: 20px; display:block; text-align:center;">No custom image uploaded (Using dynamic vector card fallback)</span>');
+			$('#onyx_upload_hero_img_btn').text('Upload / Select Custom Card Image');
+			$(this).hide();
+		});
+	});
+	</script>
 	<?php
 }
 
 /**
- * Save Meta Box Data Safely
+ * Save Meta Box Input Data to wp_postmeta with Strict Sanitization & Security Checks.
  *
- * @param int $post_id Post ID.
+ * @param int $post_id Current Post ID being saved.
  * @return void
  */
 function landing_save_onyx_meta_box( $post_id ) {
+	// 1. Nonce check for CSRF protection.
 	if ( ! isset( $_POST['landing_onyx_meta_box_nonce'] ) || ! wp_verify_nonce( $_POST['landing_onyx_meta_box_nonce'], 'landing_onyx_meta_box_save_action' ) ) {
 		return;
 	}
+
+	// 2. Prevent saving during WP Autosave.
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 		return;
 	}
+
+	// 3. Prevent execution on revision save.
 	if ( wp_is_post_revision( $post_id ) ) {
 		return;
 	}
+
+	// 4. Verify user capability.
 	if ( ! current_user_can( 'edit_page', $post_id ) ) {
+		return;
+	}
+
+	// 5. Verify post type is page.
+	if ( isset( $_POST['post_type'] ) && 'page' !== $_POST['post_type'] ) {
 		return;
 	}
 
@@ -299,6 +389,16 @@ function landing_save_onyx_meta_box( $post_id ) {
 		$hero_title_val = wp_kses_post( wp_unslash( $_POST['_landing_hero_title'] ) );
 		update_post_meta( $post_id, '_landing_hero_title', $hero_title_val );
 	}
+
+	// Sanitize and save/delete custom hero image URL
+	if ( isset( $_POST['_landing_hero_image_url'] ) ) {
+		$img_url = esc_url_raw( wp_unslash( $_POST['_landing_hero_image_url'] ) );
+		if ( ! empty( $img_url ) ) {
+			update_post_meta( $post_id, '_landing_hero_image_url', $img_url );
+		} else {
+			delete_post_meta( $post_id, '_landing_hero_image_url' );
+		}
+	}
 }
 add_action( 'save_post', 'landing_save_onyx_meta_box' );
 
@@ -318,7 +418,7 @@ function landing_enqueue_onyx_assets() {
 			$css_file_uri  = get_template_directory_uri() . $css_relative_path;
 		}
 
-		$version = file_exists( $css_file_path ) ? filemtime( $css_file_path ) : '2.0.0';
+		$version = file_exists( $css_file_path ) ? filemtime( $css_file_path ) : '3.2.0';
 
 		wp_enqueue_style(
 			'landing-onyx-sections-css',
@@ -329,7 +429,7 @@ function landing_enqueue_onyx_assets() {
 		);
 
 		// Localize script data for AJAX referral form submission
-		wp_register_script( 'landing-onyx-ajax-script', false, array( 'jquery' ), '2.0.0', true );
+		wp_register_script( 'landing-onyx-ajax-script', false, array( 'jquery' ), '3.2.0', true );
 		wp_enqueue_script( 'landing-onyx-ajax-script' );
 
 		$script_vars = array(
@@ -371,7 +471,7 @@ function landing_handle_onyx_referral_submission() {
 		wp_send_json_error( array( 'message' => 'You must consent to sharing referral information.' ) );
 	}
 
-	// Store submission in WordPress options log or send notification email
+	// Store submission in WordPress options log
 	$submissions   = get_option( 'onyx_referral_submissions', array() );
 	$submissions[] = array(
 		'timestamp'  => current_time( 'mysql' ),
