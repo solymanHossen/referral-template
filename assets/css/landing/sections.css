@@ -5,19 +5,20 @@
    ========================================================================== */
 
 :root {
-	--onyx-red-dark: #3a040b;
-	--onyx-red-main: #5d0815;
-	--onyx-red-light: #7c0a1c;
-	--onyx-gold: #dfb746;
-	--onyx-gold-light: #f5d876;
-	--onyx-gold-dark: #b89124;
-	--onyx-gold-gradient: linear-gradient(135deg, #e6c562 0%, #c49d28 100%);
+	--onyx-red-dark: #3e0000;
+	--onyx-red-main: #5e0000;
+	--onyx-red-light: #6e0000;
+	--onyx-gold: #d9b66d;
+	--onyx-gold-light: #ffda6d;
+	--onyx-gold-dark: #d5ac49;
+	--onyx-gold-gradient: linear-gradient(135deg, #ffda6d 0%, #d5ac49 100%);
 	--onyx-dark-slate: #141619;
+	--onyx-bg-offwhite: #f8f5f4;
 	--onyx-text-white: #ffffff;
 	--onyx-text-muted: rgba(255, 255, 255, 0.78);
 	--onyx-text-dark: #1e293b;
 	--onyx-font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-	--onyx-container-width: 1140px;
+	--onyx-container-width: 1200px;
 	--onyx-radius: 6px;
 	--onyx-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -290,24 +291,29 @@
    -------------------------------------------------------------------------- */
 .onyx-form-section {
 	position: relative;
-	background-color: #ffffff;
-	padding: 0 1.5rem 4rem;
+	background-color: var(--onyx-bg-offwhite);
+	padding: 0 1.5rem 5rem;
 }
 
 .onyx-form-section__container {
-	max-width: 900px;
+	max-width: 1240px;
 	margin: 0 auto;
+	width: 100%;
 }
 
 .onyx-form-card {
 	position: relative;
 	z-index: 10;
-	margin-top: -65px;
-	background: linear-gradient(180deg, #630715 0%, #3e030b 100%);
-	border-radius: 12px;
-	border: 1px solid rgba(223, 183, 70, 0.35);
+	margin-top: -75px;
+	width: 100%;
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+	background: linear-gradient(180deg, #6e0000 0%, #3e0000 100%);
+	border-radius: 14px;
+	border: 2px solid #d9b66d;
 	box-shadow: 0 25px 55px rgba(0, 0, 0, 0.45);
-	padding: 3rem 2.5rem;
+	padding: 56px 64px;
 	color: #ffffff;
 }
 
@@ -315,19 +321,19 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 1.25rem;
-	margin-bottom: 2.25rem;
+	gap: 1.5rem;
+	margin-bottom: 2.5rem;
 }
 
 .onyx-form-card__line {
 	height: 1.5px;
-	width: 80px;
-	background: #dfb746;
+	width: 84px;
+	background: #d9b66d;
 	display: block;
 }
 
 .onyx-form-card__title {
-	font-size: 1.5rem;
+	font-size: 1.625rem;
 	font-weight: 800;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
@@ -337,49 +343,49 @@
 }
 
 .onyx-form__group {
-	margin-bottom: 1.85rem;
+	margin-bottom: 2rem;
 }
 
 .onyx-form__group-label {
-	font-size: 0.8125rem;
+	font-size: 0.875rem;
 	font-weight: 800;
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
 	color: #ffffff;
-	margin: 0 0 0.75rem 0;
+	margin: 0 0 0.85rem 0;
 }
 
 .onyx-form__row {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 1.1rem;
+	gap: 1.25rem;
 }
 
 .onyx-form__field input {
 	width: 100%;
-	background-color: #40040c;
-	border: 1px solid rgba(255, 255, 255, 0.22);
-	border-radius: 5px;
-	padding: 13px 15px;
+	background-color: rgba(221, 220, 220, 0.08);
+	border: 1px solid rgba(217, 182, 109, 0.35);
+	border-radius: 6px;
+	padding: 14px 16px;
 	color: #ffffff;
 	font-size: 0.875rem;
 	transition: var(--onyx-transition);
 }
 
 .onyx-form__field input::placeholder {
-	color: rgba(255, 255, 255, 0.58);
+	color: rgba(255, 255, 255, 0.6);
 	font-style: italic;
 }
 
 .onyx-form__field input:focus {
-	border-color: #dfb746;
+	border-color: #d9b66d;
 	outline: none;
-	box-shadow: 0 0 0 1px #dfb746;
-	background-color: #4a050e;
+	box-shadow: 0 0 0 2px rgba(217, 182, 109, 0.4);
+	background-color: rgba(221, 220, 220, 0.14);
 }
 
 .onyx-form__consent-wrapper {
-	margin: 1.75rem 0 2.25rem;
+	margin: 2rem 0 2.5rem;
 }
 
 .onyx-form__checkbox-label {
@@ -397,11 +403,11 @@
 }
 
 .onyx-form__checkbox-custom {
-	width: 19px;
-	height: 19px;
-	border: 1px solid #dfb746;
+	width: 20px;
+	height: 20px;
+	border: 1.5px solid #d9b66d;
 	border-radius: 3px;
-	background-color: #40040c;
+	background-color: rgba(0, 0, 0, 0.2);
 	flex-shrink: 0;
 	margin-top: 1px;
 	position: relative;
@@ -409,7 +415,7 @@
 }
 
 .onyx-form__checkbox-label input[type="checkbox"]:checked ~ .onyx-form__checkbox-custom {
-	background-color: #dfb746;
+	background-color: #d9b66d;
 }
 
 .onyx-form__checkbox-label input[type="checkbox"]:checked ~ .onyx-form__checkbox-custom::after {
@@ -427,14 +433,14 @@
 .onyx-form__consent-text {
 	font-size: 0.8125rem;
 	line-height: 1.55;
-	color: rgba(255, 255, 255, 0.9);
+	color: rgba(255, 255, 255, 0.92);
 	font-style: italic;
 }
 
 .onyx-form__submit-wrapper {
 	display: flex;
 	justify-content: center;
-	margin-top: 2.25rem;
+	margin-top: 2.5rem;
 }
 
 .onyx-form__submit-btn {
@@ -442,8 +448,8 @@
 	align-items: center;
 	justify-content: center;
 	gap: 10px;
-	padding: 13px 44px;
-	background: linear-gradient(135deg, #e4c463 0%, #b89124 100%);
+	padding: 14px 48px;
+	background: var(--onyx-gold-gradient);
 	color: #141619;
 	border: none;
 	border-radius: 6px;
@@ -453,13 +459,12 @@
 	text-transform: uppercase;
 	cursor: pointer;
 	transition: var(--onyx-transition);
-	box-shadow: 0 4px 15px rgba(223, 183, 70, 0.35);
+	box-shadow: 0 4px 15px rgba(217, 182, 109, 0.35);
 }
 
 .onyx-form__submit-btn:hover {
 	transform: translateY(-2px);
-	background: linear-gradient(135deg, #ebd073 0%, #c49d28 100%);
-	box-shadow: 0 8px 25px rgba(223, 183, 70, 0.5);
+	box-shadow: 0 8px 25px rgba(217, 182, 109, 0.5);
 }
 
 .onyx-form__alert {
@@ -527,7 +532,7 @@
 .onyx-rewards {
 	background: linear-gradient(180deg, var(--onyx-red-main) 0%, var(--onyx-red-dark) 100%);
 	color: var(--onyx-text-white);
-	padding: 5rem 1.5rem;
+	padding: 6rem 1.5rem;
 }
 
 .onyx-rewards__container {
@@ -535,29 +540,30 @@
 	margin: 0 auto;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 4rem;
+	gap: 4.5rem;
 	align-items: center;
 }
 
 .onyx-rewards__title {
-	font-size: clamp(2rem, 3.5vw, 3rem);
+	font-size: clamp(2.25rem, 4vw, 3.25rem);
 	font-weight: 900;
-	line-height: 1.15;
+	line-height: 1.12;
 	text-transform: uppercase;
 	color: #ffffff;
 	margin: 0 0 1.25rem 0;
+	letter-spacing: -0.01em;
 }
 
 .onyx-rewards__line {
 	width: 60px;
 	height: 2px;
 	background: var(--onyx-gold);
-	margin-bottom: 1.5rem;
+	margin-bottom: 1.75rem;
 }
 
 .onyx-rewards__text {
 	font-size: 0.9375rem;
-	line-height: 1.7;
+	line-height: 1.75;
 	color: var(--onyx-text-muted);
 }
 
@@ -570,38 +576,39 @@
 .onyx-rewards__grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 1.25rem;
+	gap: 1.5rem;
 }
 
 .onyx-reward-card {
-	background: #42040c;
-	border: 1px solid rgba(255, 255, 255, 0.15);
+	background: #4a0000;
+	border: 1px solid rgba(217, 182, 109, 0.3);
 	border-radius: 8px;
-	padding: 1.75rem 1.25rem;
+	padding: 2rem 1.5rem;
 	text-align: left;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
 .onyx-reward-card__label {
 	font-size: 0.75rem;
 	font-weight: 800;
-	letter-spacing: 0.1em;
+	letter-spacing: 0.12em;
 	text-transform: uppercase;
 	color: var(--onyx-gold);
 	display: block;
-	margin-bottom: 0.5rem;
+	margin-bottom: 0.75rem;
 }
 
 .onyx-reward-card__value {
-	font-size: 3.25rem;
+	font-size: 3.5rem;
 	font-weight: 900;
 	color: #ffffff;
 	line-height: 1;
-	margin-bottom: 0.75rem;
+	margin-bottom: 0.85rem;
 }
 
 .onyx-reward-card__sub {
 	font-size: 0.8125rem;
-	line-height: 1.45;
+	line-height: 1.5;
 	color: var(--onyx-text-muted);
 	margin: 0;
 }
@@ -872,6 +879,10 @@
 		margin-top: 1rem;
 	}
 
+	.onyx-form-card {
+		padding: 48px 36px;
+	}
+
 	.onyx-rewards__container {
 		grid-template-columns: 1fr;
 		gap: 2.5rem;
@@ -889,6 +900,19 @@
 }
 
 @media (max-width: 768px) {
+	.onyx-form-card {
+		padding: 32px 20px;
+	}
+
+	.onyx-form-card__header {
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	.onyx-form-card__line {
+		width: 40px;
+	}
+
 	.onyx-form__row {
 		grid-template-columns: 1fr;
 	}
