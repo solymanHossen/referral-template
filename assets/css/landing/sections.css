@@ -69,7 +69,7 @@
 	position: relative;
 	background: linear-gradient(135deg, var(--onyx-red-light) 0%, var(--onyx-red-main) 50%, var(--onyx-red-dark) 100%);
 	color: var(--onyx-text-white);
-	padding: 3.5rem 1.5rem 5.5rem;
+	padding: 6rem 1.5rem 8.5rem;
 	overflow: hidden;
 }
 
@@ -88,7 +88,7 @@
 	display: grid;
 	grid-template-columns: 1.1fr 0.9fr;
 	align-items: center;
-	gap: 2.5rem;
+	gap: 4rem;
 }
 
 .onyx-hero__tagline {
