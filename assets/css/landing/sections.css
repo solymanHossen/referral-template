@@ -542,45 +542,50 @@
 .onyx-rewards {
 	background: linear-gradient(180deg, var(--onyx-red-main) 0%, var(--onyx-red-dark) 100%);
 	color: var(--onyx-text-white);
-	padding: 6rem 1.5rem;
+	padding: 6.5rem 1.5rem;
 }
 
 .onyx-rewards__container {
 	max-width: var(--onyx-container-width);
 	margin: 0 auto;
 	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 4.5rem;
+	grid-template-columns: 1.05fr 0.95fr;
+	gap: 5rem;
 	align-items: center;
 }
 
 .onyx-rewards__title {
-	font-size: clamp(2.25rem, 4vw, 3.25rem);
+	font-size: clamp(2.5rem, 4.5vw, 3.75rem);
 	font-weight: 900;
-	line-height: 1.12;
+	line-height: 1.08;
 	text-transform: uppercase;
 	color: #ffffff;
-	margin: 0 0 1.25rem 0;
-	letter-spacing: -0.01em;
+	margin: 0 0 1.5rem 0;
+	letter-spacing: -0.02em;
 }
 
 .onyx-rewards__line {
-	width: 60px;
-	height: 2px;
-	background: var(--onyx-gold);
-	margin-bottom: 1.75rem;
+	width: 64px;
+	height: 3px;
+	background: var(--onyx-gold-gradient);
+	margin-bottom: 2rem;
+	border-radius: 2px;
 }
 
 .onyx-rewards__text {
-	font-size: 0.9375rem;
-	line-height: 1.75;
-	color: var(--onyx-text-muted);
+	font-size: clamp(1.0625rem, 1.25vw, 1.25rem);
+	line-height: 1.7;
+	color: rgba(255, 255, 255, 0.92);
+	font-weight: 500;
+	letter-spacing: 0.01em;
 }
 
 .onyx-rewards__card-intro {
-	font-size: 0.875rem;
-	color: var(--onyx-text-muted);
-	margin-bottom: 1.25rem;
+	font-size: 1.0625rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	color: #ffffff;
+	margin-bottom: 1.5rem;
 }
 
 .onyx-rewards__grid {
@@ -590,36 +595,45 @@
 }
 
 .onyx-reward-card {
-	background: #4a0000;
-	border: 1px solid rgba(217, 182, 109, 0.3);
-	border-radius: 8px;
-	padding: 2rem 1.5rem;
+	background: linear-gradient(145deg, #4e0000 0%, #340000 100%);
+	border: 1.5px solid rgba(217, 182, 109, 0.45);
+	border-radius: 12px;
+	padding: 2.25rem 1.75rem;
 	text-align: left;
-	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+	transition: var(--onyx-transition);
+}
+
+.onyx-reward-card:hover {
+	transform: translateY(-4px);
+	border-color: var(--onyx-gold);
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 15px rgba(217, 182, 109, 0.2);
 }
 
 .onyx-reward-card__label {
-	font-size: 0.75rem;
+	font-size: 0.875rem;
 	font-weight: 800;
-	letter-spacing: 0.12em;
+	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	color: var(--onyx-gold);
 	display: block;
-	margin-bottom: 0.75rem;
-}
-
-.onyx-reward-card__value {
-	font-size: 3.5rem;
-	font-weight: 900;
-	color: #ffffff;
-	line-height: 1;
 	margin-bottom: 0.85rem;
 }
 
+.onyx-reward-card__value {
+	font-size: clamp(3.25rem, 4vw, 4.25rem);
+	font-weight: 900;
+	color: #ffffff;
+	line-height: 1;
+	margin-bottom: 1rem;
+	letter-spacing: -0.02em;
+}
+
 .onyx-reward-card__sub {
-	font-size: 0.8125rem;
-	line-height: 1.5;
-	color: var(--onyx-text-muted);
+	font-size: 0.9375rem;
+	line-height: 1.6;
+	color: rgba(255, 255, 255, 0.88);
+	font-weight: 500;
 	margin: 0;
 }
 
@@ -627,9 +641,9 @@
    5. How It Works Section
    -------------------------------------------------------------------------- */
 .onyx-how {
-	background-color: var(--onyx-dark-slate);
+	background-color: #21262a;
 	color: var(--onyx-text-white);
-	padding: 5rem 1.5rem;
+	padding: 5.5rem 1.5rem;
 }
 
 .onyx-how__container {
@@ -641,66 +655,75 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 1rem;
-	margin-bottom: 4rem;
+	gap: 1.25rem;
+	margin-bottom: 4.5rem;
 }
 
 .onyx-how__line {
 	height: 1px;
-	width: 60px;
-	background: var(--onyx-gold);
+	width: 90px;
+	background: rgba(217, 182, 109, 0.6);
 }
 
 .onyx-how__title {
-	font-size: 1.75rem;
+	font-size: 1.625rem;
 	font-weight: 800;
-	letter-spacing: 0.12em;
+	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	color: #ffffff;
 	margin: 0;
+	text-align: center;
 }
 
 .onyx-how__steps-grid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 2.5rem;
-	margin-bottom: 3.5rem;
+	gap: 3.5rem;
+	margin-bottom: 4rem;
 }
 
 .onyx-step-card {
 	text-align: center;
 }
 
-.onyx-step-card__num-wrap {
-	display: inline-block;
-	margin-bottom: 1.25rem;
+.onyx-step-card__divider {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	margin-bottom: 1.5rem;
+}
+
+.onyx-step-card__divider::before,
+.onyx-step-card__divider::after {
+	content: "";
+	flex: 1;
+	height: 1px;
+	background: rgba(255, 255, 255, 0.22);
 }
 
 .onyx-step-card__num {
-	font-size: 1.5rem;
+	padding: 0 16px;
+	font-size: 1.125rem;
 	font-weight: 800;
 	color: var(--onyx-gold);
-}
-
-.onyx-step-card__num-line {
-	width: 40px;
-	height: 2px;
-	background-color: var(--onyx-gold);
-	margin: 4px auto 0;
+	letter-spacing: 0.05em;
 }
 
 .onyx-step-card__title {
 	font-size: 1.125rem;
 	font-weight: 700;
 	color: #ffffff;
-	margin: 0 0 0.875rem 0;
+	line-height: 1.4;
+	margin: 0 0 0.85rem 0;
 }
 
 .onyx-step-card__desc {
 	font-size: 0.875rem;
-	line-height: 1.6;
-	color: var(--onyx-text-muted);
-	margin: 0;
+	line-height: 1.65;
+	color: rgba(255, 255, 255, 0.75);
+	margin: 0 auto;
+	max-width: 320px;
 }
 
 .onyx-how__cta-wrap {
@@ -709,11 +732,13 @@
 
 .onyx-how__btn {
 	display: inline-flex;
-	padding: 12px 40px;
+	align-items: center;
+	justify-content: center;
+	padding: 12px 36px;
 	background-color: transparent;
 	color: #ffffff;
-	border: 1.5px solid var(--onyx-gold);
-	border-radius: 4px;
+	border: 1.5px solid rgba(255, 255, 255, 0.7);
+	border-radius: 6px;
 	font-size: 0.875rem;
 	font-weight: 800;
 	letter-spacing: 0.12em;
@@ -723,8 +748,9 @@
 }
 
 .onyx-how__btn:hover {
-	background-color: var(--onyx-gold);
-	color: #1a1a1a;
+	border-color: var(--onyx-gold);
+	color: var(--onyx-gold);
+	background-color: rgba(217, 182, 109, 0.1);
 }
 
 /* --------------------------------------------------------------------------
