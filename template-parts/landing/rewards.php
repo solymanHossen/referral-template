@@ -2,11 +2,13 @@
 /**
  * Template Part: Rewards Module ("MORE FOR YOU. MORE FOR THEM.")
  *
- * Renders the 2-column rewards breakdown with rate increase stat cards,
- * deep crimson background, and dynamic wp_postmeta data.
+ * Renders the 2-column rewards breakdown matching the exact reference picture design:
+ * - Left Column: Title, gold line, description paragraphs
+ * - Middle: Vertical divider line
+ * - Right Column: Intro text, 2 stat cards
  *
  * @package ModularLandingPage
- * @version 2.0.0
+ * @version 2.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -38,9 +40,12 @@ $reward2_sub   = get_post_meta( $post_id, '_landing_reward2_sub', true ) ?: 'You
 			</div>
 		</div>
 
-		<!-- Right Column: 2 Stat Cards -->
+		<!-- Center Vertical Divider Line -->
+		<div class="onyx-rewards__divider" aria-hidden="true"></div>
+
+		<!-- Right Column: Intro & 2 Stat Cards -->
 		<div class="onyx-rewards__cards-col">
-			<p class="onyx-rewards__card-intro">When your referral opens an Onyx account...</p>
+			<p class="onyx-rewards__card-intro">When your referral opens an Onyx account:</p>
 			
 			<div class="onyx-rewards__grid">
 				<!-- Stat Card 1 -->
