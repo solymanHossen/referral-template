@@ -336,6 +336,12 @@ function landing_render_onyx_meta_box( $post ) {
 			<button type="button" class="onyx-tab-btn" data-tab="tab-support">
 				<span>💬 Support & Legal</span>
 			</button>
+			<?php
+			$subs_count_tab = is_array( get_option( 'onyx_referral_submissions', array() ) ) ? count( get_option( 'onyx_referral_submissions', array() ) ) : 0;
+			?>
+			<button type="button" class="onyx-tab-btn" data-tab="tab-submissions" style="color:#5d0815; font-weight:800;">
+				<span>📩 Submissions (<?php echo esc_html( $subs_count_tab ); ?>)</span>
+			</button>
 		</div>
 
 		<!-- Panel Content Body -->
@@ -559,6 +565,76 @@ function landing_render_onyx_meta_box( $post ) {
 						<label for="_landing_disclaimer">Disclaimer Fine Print Text</label>
 						<textarea id="_landing_disclaimer" name="_landing_disclaimer" rows="4"><?php echo esc_textarea( $disclaimer ); ?></textarea>
 					</div>
+				</div>
+			</div>
+
+			<!-- TAB 6: REFERRAL SUBMISSIONS LOG -->
+			<div class="onyx-tab-content" id="tab-submissions">
+				<div class="onyx-card-box">
+					<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+						<div>
+							<div class="onyx-card-heading" style="margin:0; padding:0; border:none;">Referral Form Submissions</div>
+							<p style="margin:4px 0 0 0; color:#64748b; font-size:13px;">View and manage referral requests submitted by visitors through the front-end form.</p>
+						</div>
+						<div style="display:flex; gap:10px;">
+							<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=onyx-referrals&action=export_onyx_referrals_csv' ), 'onyx_export_csv_action' ) ); ?>" class="button button-primary" style="background:#5d0815; border-color:#5d0815; color:#ffffff; font-weight:700; border-radius:6px; padding:4px 14px;">📥 Export CSV</a>
+							<?php
+							$subs_log = get_option( 'onyx_referral_submissions', array() );
+							if ( ! empty( $subs_log ) ) :
+								?>
+								<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=onyx-referrals&action=clear_onyx_submissions' ), 'onyx_clear_subs_action' ) ); ?>" class="button button-link-delete" onclick="return confirm('Are you sure you want to delete ALL referral submissions?');" style="color:#dc2626;">🗑️ Clear All Log</a>
+							<?php endif; ?>
+						</div>
+					</div>
+
+					<?php
+					if ( empty( $subs_log ) || ! is_array( $subs_log ) ) :
+						?>
+						<div style="padding:40px 20px; text-align:center; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px; color:#64748b;">
+							<p style="font-size:15px; font-weight:600; margin:0 0 6px 0;">No referral submissions recorded yet.</p>
+							<p style="font-size:13px; margin:0;">Submissions will automatically appear here whenever a user completes the "REFER NOW" form.</p>
+						</div>
+					<?php else : ?>
+						<div style="overflow-x:auto;">
+							<table class="wp-list-table widefat fixed striped" style="border-radius:8px; overflow:hidden; border:1px solid #cbd5e1;">
+								<thead>
+									<tr style="background:#5d0815; color:#ffffff;">
+										<th style="width:40px; color:#ffffff; font-weight:800;">#</th>
+										<th style="width:150px; color:#ffffff; font-weight:800;">Date & Time</th>
+										<th style="color:#ffffff; font-weight:800;">Referrer Information</th>
+										<th style="color:#ffffff; font-weight:800;">Referral Information</th>
+										<th style="width:100px; color:#ffffff; font-weight:800;">Consent</th>
+										<th style="width:90px; color:#ffffff; font-weight:800; text-align:center;">Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+									$reversed_subs = array_reverse( $subs_log, true );
+									foreach ( $reversed_subs as $idx => $sub ) :
+										?>
+										<tr>
+											<td><strong><?php echo esc_html( $idx + 1 ); ?></strong></td>
+											<td><span style="font-size:12px; color:#475569; font-weight:600;"><?php echo esc_html( isset( $sub['timestamp'] ) ? $sub['timestamp'] : 'N/A' ); ?></span></td>
+											<td>
+												<strong style="color:#0f172a;"><?php echo esc_html( isset( $sub['user_name'] ) ? $sub['user_name'] : '' ); ?></strong><br>
+												<a href="mailto:<?php echo esc_attr( isset( $sub['user_email'] ) ? $sub['user_email'] : '' ); ?>" style="color:#2563eb; text-decoration:none; font-size:12px;"><?php echo esc_html( isset( $sub['user_email'] ) ? $sub['user_email'] : '' ); ?></a><br>
+												<span style="font-size:12px; color:#64748b;"><?php echo esc_html( isset( $sub['user_phone'] ) ? $sub['user_phone'] : '' ); ?></span>
+											</td>
+											<td>
+												<strong style="color:#0f172a;"><?php echo esc_html( isset( $sub['ref_name'] ) ? $sub['ref_name'] : '' ); ?></strong><br>
+												<a href="mailto:<?php echo esc_attr( isset( $sub['ref_email'] ) ? $sub['ref_email'] : '' ); ?>" style="color:#2563eb; text-decoration:none; font-size:12px;"><?php echo esc_html( isset( $sub['ref_email'] ) ? $sub['ref_email'] : '' ); ?></a><br>
+												<span style="font-size:12px; color:#64748b;"><?php echo esc_html( isset( $sub['ref_phone'] ) ? $sub['ref_phone'] : '' ); ?></span>
+											</td>
+											<td><span style="background:#dcfce7; color:#15803d; font-weight:800; font-size:11px; padding:3px 8px; border-radius:12px; display:inline-block;">✓ Confirmed</span></td>
+											<td style="text-align:center;">
+												<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=onyx-referrals&action=delete_onyx_submission&index=' . $idx ), 'onyx_delete_sub_action' ) ); ?>" onclick="return confirm('Delete this referral record?');" style="color:#ef4444; font-weight:700; font-size:12px; text-decoration:none;">Delete</a>
+											</td>
+										</tr>
+									<?php endforeach; ?>
+								</tbody>
+							</table>
+						</div>
+					<?php endif; ?>
 				</div>
 			</div>
 
@@ -790,3 +866,187 @@ function landing_handle_onyx_referral_submission() {
 }
 add_action( 'wp_ajax_submit_onyx_referral', 'landing_handle_onyx_referral_submission' );
 add_action( 'wp_ajax_nopriv_submit_onyx_referral', 'landing_handle_onyx_referral_submission' );
+
+/**
+ * Handle CSV Export and Deletion Admin Actions for Referral Submissions.
+ */
+function landing_handle_onyx_referrals_admin_actions() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	// Action 1: Export CSV
+	if ( isset( $_GET['action'] ) && 'export_onyx_referrals_csv' === $_GET['action'] ) {
+		check_admin_referer( 'onyx_export_csv_action' );
+
+		$submissions = get_option( 'onyx_referral_submissions', array() );
+
+		header( 'Content-Type: text/csv; charset=utf-8' );
+		header( 'Content-Disposition: attachment; filename=onyx_referrals_' . date( 'Y-m-d' ) . '.csv' );
+
+		$output = fopen( 'php://output', 'w' );
+		fputcsv( $output, array( '#', 'Date & Time', 'User Name', 'User Email', 'User Phone', 'Referral Name', 'Referral Email', 'Referral Phone', 'Consent' ) );
+
+		if ( ! empty( $submissions ) && is_array( $submissions ) ) {
+			foreach ( $submissions as $index => $sub ) {
+				fputcsv( $output, array(
+					$index + 1,
+					isset( $sub['timestamp'] ) ? $sub['timestamp'] : '',
+					isset( $sub['user_name'] ) ? $sub['user_name'] : '',
+					isset( $sub['user_email'] ) ? $sub['user_email'] : '',
+					isset( $sub['user_phone'] ) ? $sub['user_phone'] : '',
+					isset( $sub['ref_name'] ) ? $sub['ref_name'] : '',
+					isset( $sub['ref_email'] ) ? $sub['ref_email'] : '',
+					isset( $sub['ref_phone'] ) ? $sub['ref_phone'] : '',
+					'Confirmed',
+				) );
+			}
+		}
+
+		fclose( $output );
+		exit;
+	}
+
+	// Action 2: Delete Single Entry
+	if ( isset( $_GET['action'] ) && 'delete_onyx_submission' === $_GET['action'] && isset( $_GET['index'] ) ) {
+		check_admin_referer( 'onyx_delete_sub_action' );
+		$index       = intval( $_GET['index'] );
+		$submissions = get_option( 'onyx_referral_submissions', array() );
+
+		if ( isset( $submissions[ $index ] ) ) {
+			unset( $submissions[ $index ] );
+			$submissions = array_values( $submissions );
+			update_option( 'onyx_referral_submissions', $submissions );
+		}
+
+		wp_safe_redirect( admin_url( 'admin.php?page=onyx-referrals&updated=1' ) );
+		exit;
+	}
+
+	// Action 3: Clear All Submissions
+	if ( isset( $_GET['action'] ) && 'clear_onyx_submissions' === $_GET['action'] ) {
+		check_admin_referer( 'onyx_clear_subs_action' );
+		update_option( 'onyx_referral_submissions', array() );
+		wp_safe_redirect( admin_url( 'admin.php?page=onyx-referrals&cleared=1' ) );
+		exit;
+	}
+}
+add_action( 'admin_init', 'landing_handle_onyx_referrals_admin_actions' );
+
+/**
+ * Register "Onyx Referrals" Menu Page in WP Admin Sidebar.
+ */
+function landing_add_onyx_referrals_admin_menu() {
+	$submissions = get_option( 'onyx_referral_submissions', array() );
+	$count       = is_array( $submissions ) ? count( $submissions ) : 0;
+	$badge       = $count > 0 ? sprintf( ' <span class="update-plugins count-%d"><span class="plugin-count">%d</span></span>', $count, $count ) : '';
+
+	add_menu_page(
+		'Onyx Referrals',
+		'Onyx Referrals' . $badge,
+		'manage_options',
+		'onyx-referrals',
+		'landing_render_onyx_referrals_admin_page',
+		'dashicons-awards',
+		30
+	);
+}
+add_action( 'admin_menu', 'landing_add_onyx_referrals_admin_menu' );
+
+/**
+ * Render Standalone WP Admin Page for Onyx Referrals Submissions List.
+ */
+function landing_render_onyx_referrals_admin_page() {
+	$submissions = get_option( 'onyx_referral_submissions', array() );
+	if ( ! is_array( $submissions ) ) {
+		$submissions = array();
+	}
+	$total_count = count( $submissions );
+	$latest_date = ! empty( $submissions ) ? end( $submissions )['timestamp'] : 'None';
+	?>
+	<div class="wrap" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;">
+		<div style="background:linear-gradient(135deg, #5d0815 0%, #3b030a 100%); padding:28px 36px; border-radius:12px; color:#ffffff; margin-top:20px; box-shadow:0 10px 25px rgba(0,0,0,0.15); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+			<div>
+				<h1 style="color:#ffffff; font-size:24px; font-weight:900; letter-spacing:0.04em; text-transform:uppercase; margin:0 0 6px 0; display:flex; align-items:center; gap:12px;">
+					<span>🏆 Onyx Referral Submissions Log</span>
+				</h1>
+				<p style="margin:0; color:rgba(255,255,255,0.85); font-size:14px;">View, search, and manage all referral submissions submitted by visitors from the front-end form.</p>
+			</div>
+			<div style="display:flex; gap:12px; align-items:center;">
+				<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=onyx-referrals&action=export_onyx_referrals_csv' ), 'onyx_export_csv_action' ) ); ?>" class="button button-primary" style="background:#dfb746; border-color:#dfb746; color:#141619; font-weight:800; padding:6px 20px; border-radius:6px; font-size:14px; text-transform:uppercase; letter-spacing:0.05em;">📥 Export CSV</a>
+				<?php if ( $total_count > 0 ) : ?>
+					<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=onyx-referrals&action=clear_onyx_submissions' ), 'onyx_clear_subs_action' ) ); ?>" onclick="return confirm('Are you sure you want to delete ALL referral submissions?');" class="button button-secondary" style="background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.3); color:#ffffff; font-weight:700; border-radius:6px;">Clear Log</a>
+				<?php endif; ?>
+			</div>
+		</div>
+
+		<!-- KPI Summary Cards -->
+		<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px; margin:24px 0;">
+			<div style="background:#ffffff; padding:20px 24px; border-radius:10px; border:1px solid #cbd5e1; box-shadow:0 4px 12px rgba(0,0,0,0.03);">
+				<span style="font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#64748b; display:block; margin-bottom:6px;">Total Submissions</span>
+				<span style="font-size:32px; font-weight:900; color:#5d0815; line-height:1;"><?php echo esc_html( $total_count ); ?></span>
+			</div>
+			<div style="background:#ffffff; padding:20px 24px; border-radius:10px; border:1px solid #cbd5e1; box-shadow:0 4px 12px rgba(0,0,0,0.03);">
+				<span style="font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#64748b; display:block; margin-bottom:6px;">Latest Referral Date</span>
+				<span style="font-size:16px; font-weight:800; color:#0f172a;"><?php echo esc_html( $latest_date ); ?></span>
+			</div>
+			<div style="background:#ffffff; padding:20px 24px; border-radius:10px; border:1px solid #cbd5e1; box-shadow:0 4px 12px rgba(0,0,0,0.03);">
+				<span style="font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#64748b; display:block; margin-bottom:6px;">Program Status</span>
+				<span style="background:#dcfce7; color:#15803d; font-weight:800; font-size:13px; padding:4px 12px; border-radius:20px; display:inline-block;">● Active Receiving Leads</span>
+			</div>
+		</div>
+
+		<!-- Submissions Data Table Box -->
+		<div style="background:#ffffff; border-radius:12px; border:1px solid #cbd5e1; padding:24px; box-shadow:0 6px 20px rgba(0,0,0,0.04);">
+			<?php if ( empty( $submissions ) ) : ?>
+				<div style="padding:60px 20px; text-align:center; background:#f8fafc; border:2px dashed #cbd5e1; border-radius:10px;">
+					<span style="font-size:40px; display:block; margin-bottom:12px;">📭</span>
+					<h3 style="margin:0 0 8px 0; font-size:18px; color:#1e293b;">No Referrals Received Yet</h3>
+					<p style="margin:0; color:#64748b; font-size:14px;">When visitors fill out and submit the "REFER NOW" form on the landing page, their entries will instantly appear here.</p>
+				</div>
+			<?php else : ?>
+				<div style="overflow-x:auto;">
+					<table class="wp-list-table widefat fixed striped" style="border-radius:8px; overflow:hidden; border:1px solid #cbd5e1;">
+						<thead>
+							<tr style="background:#5d0815; color:#ffffff;">
+								<th style="width:45px; color:#ffffff; font-weight:800; text-align:center;">#</th>
+								<th style="width:160px; color:#ffffff; font-weight:800;">Date & Time</th>
+								<th style="color:#ffffff; font-weight:800;">Referrer (Your Information)</th>
+								<th style="color:#ffffff; font-weight:800;">Referral (Friend's Information)</th>
+								<th style="width:120px; color:#ffffff; font-weight:800; text-align:center;">Consent</th>
+								<th style="width:90px; color:#ffffff; font-weight:800; text-align:center;">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							$reversed = array_reverse( $submissions, true );
+							foreach ( $reversed as $idx => $sub ) :
+								?>
+								<tr>
+									<td style="text-align:center;"><strong><?php echo esc_html( $idx + 1 ); ?></strong></td>
+									<td><span style="font-size:13px; color:#475569; font-weight:600;"><?php echo esc_html( isset( $sub['timestamp'] ) ? $sub['timestamp'] : 'N/A' ); ?></span></td>
+									<td>
+										<strong style="color:#0f172a; font-size:14px;"><?php echo esc_html( isset( $sub['user_name'] ) ? $sub['user_name'] : '' ); ?></strong><br>
+										<a href="mailto:<?php echo esc_attr( isset( $sub['user_email'] ) ? $sub['user_email'] : '' ); ?>" style="color:#2563eb; text-decoration:none; font-size:13px;"><?php echo esc_html( isset( $sub['user_email'] ) ? $sub['user_email'] : '' ); ?></a><br>
+										<span style="font-size:13px; color:#64748b;"><?php echo esc_html( isset( $sub['user_phone'] ) ? $sub['user_phone'] : '' ); ?></span>
+									</td>
+									<td>
+										<strong style="color:#0f172a; font-size:14px;"><?php echo esc_html( isset( $sub['ref_name'] ) ? $sub['ref_name'] : '' ); ?></strong><br>
+										<a href="mailto:<?php echo esc_attr( isset( $sub['ref_email'] ) ? $sub['ref_email'] : '' ); ?>" style="color:#2563eb; text-decoration:none; font-size:13px;"><?php echo esc_html( isset( $sub['ref_email'] ) ? $sub['ref_email'] : '' ); ?></a><br>
+										<span style="font-size:13px; color:#64748b;"><?php echo esc_html( isset( $sub['ref_phone'] ) ? $sub['ref_phone'] : '' ); ?></span>
+									</td>
+									<td style="text-align:center;"><span style="background:#dcfce7; color:#15803d; font-weight:800; font-size:11px; padding:4px 10px; border-radius:12px; display:inline-block;">✓ Confirmed</span></td>
+									<td style="text-align:center;">
+										<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=onyx-referrals&action=delete_onyx_submission&index=' . $idx ), 'onyx_delete_sub_action' ) ); ?>" onclick="return confirm('Delete this referral record?');" style="color:#ef4444; font-weight:700; font-size:13px; text-decoration:none;">Delete</a>
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
+			<?php endif; ?>
+		</div>
+	</div>
+	<?php
+}
+
