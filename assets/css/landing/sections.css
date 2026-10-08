@@ -755,7 +755,7 @@
    -------------------------------------------------------------------------- */
 .onyx-support {
 	background-color: #ffffff;
-	padding: 4rem 1.5rem;
+	padding: 100px 1.5rem;
 	border-bottom: 1px solid #e2e8f0;
 }
 
@@ -763,28 +763,55 @@
 	max-width: var(--onyx-container-width);
 	margin: 0 auto;
 	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 3rem;
+	grid-template-columns: 1fr auto 1fr;
+	gap: 3.5rem;
+	align-items: center;
 }
 
 .onyx-support-box {
 	display: flex;
-	gap: 1.25rem;
-	align-items: flex-start;
+	align-items: center;
+	gap: 1.5rem;
+}
+
+.onyx-support-box__icon {
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.onyx-support-box__line {
+	width: 1px;
+	height: 64px;
+	background-color: var(--onyx-gold);
+	flex-shrink: 0;
+}
+
+.onyx-support-box__content {
+	flex: 1;
 }
 
 .onyx-support-box__title {
-	font-size: 1.0625rem;
+	font-size: 1.125rem;
 	font-weight: 700;
-	color: #0f172a;
+	color: #1e293b;
+	line-height: 1.4;
 	margin: 0 0 0.5rem 0;
 }
 
 .onyx-support-box__desc {
 	font-size: 0.875rem;
-	line-height: 1.6;
-	color: #64748b;
+	line-height: 1.65;
+	color: #475569;
 	margin: 0;
+}
+
+.onyx-support__divider {
+	width: 1px;
+	height: 72px;
+	background-color: var(--onyx-gold);
+	opacity: 0.7;
 }
 
 /* --------------------------------------------------------------------------
@@ -934,6 +961,10 @@
 	.onyx-support__container {
 		grid-template-columns: 1fr;
 		gap: 2rem;
+	}
+
+	.onyx-support__divider {
+		display: none;
 	}
 }
 
