@@ -106,8 +106,8 @@ $thankyou_sub   = get_post_meta( $post_id, '_landing_thankyou_sub', true ) ?: 'A
 
 	<!-- Wave Transition to Red Rewards Section -->
 	<div class="onyx-form-section__wave-bottom" aria-hidden="true">
-		<svg viewBox="0 0 1440 90" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-			<path d="M0 40 C480 100, 960 0, 1440 50 L1440 90 L0 90 Z" fill="#5e0000"/>
+		<svg viewBox="0 0 1440 100" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M-10 40 C480 100, 960 0, 1450 50 L1450 110 L-10 110 Z" fill="#5e0000"/>
 		</svg>
 	</div>
 </section>
