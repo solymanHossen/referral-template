@@ -36,9 +36,7 @@ $hero_btn    = get_post_meta( $post_id, '_landing_hero_btn_text', true ) ?: 'REF
 		
 		<!-- Section Header -->
 		<div class="onyx-how__header">
-			<span class="onyx-how__line" aria-hidden="true"></span>
 			<h2 class="onyx-how__title"><?php echo esc_html( $how_title ); ?></h2>
-			<span class="onyx-how__line" aria-hidden="true"></span>
 		</div>
 
 		<!-- 3 Steps Grid -->
