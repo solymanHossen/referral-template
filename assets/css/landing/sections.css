@@ -126,12 +126,12 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 13px 44px;
+	padding: 12px 36px;
 	background-color: #3b030a;
 	color: #ffffff;
-	border: 1.5px solid var(--onyx-gold);
-	border-radius: 4px;
-	font-size: 0.9375rem;
+	border: 1.5px solid rgba(255, 255, 255, 0.7);
+	border-radius: 6px;
+	font-size: 0.875rem;
 	font-weight: 800;
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
@@ -144,7 +144,8 @@
 .onyx-hero__btn:hover {
 	background-color: var(--onyx-gold);
 	color: #3b030a;
-	box-shadow: 0 6px 20px rgba(223, 183, 70, 0.45);
+	border-color: var(--onyx-gold);
+	box-shadow: 0 6px 20px rgba(217, 182, 109, 0.45);
 }
 
 /* Card Visual Wrapper */
