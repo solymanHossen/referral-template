@@ -815,20 +815,106 @@
 }
 
 /* --------------------------------------------------------------------------
-   7. Legal Disclaimer Footer
+   7. Legal Disclaimer Footer & Bottom Footer Bar
    -------------------------------------------------------------------------- */
+.onyx-footer-group {
+	width: 100%;
+	display: block;
+}
+
 .onyx-disclaimer {
 	background-color: var(--onyx-red-main);
-	color: rgba(255, 255, 255, 0.75);
-	padding: 2.5rem 1.5rem;
-	font-size: 0.75rem;
-	line-height: 1.6;
+	color: #DDDCDC;
+	padding: 4.5rem 1.5rem;
+	font-size: 0.875rem;
+	line-height: 1.65;
 	text-align: center;
+	border-bottom: 1.5px solid var(--onyx-gold);
 }
 
 .onyx-disclaimer__container {
-	max-width: 960px;
+	max-width: 1050px;
 	margin: 0 auto;
+}
+
+.onyx-disclaimer__text {
+	margin: 0;
+	font-weight: 400;
+	letter-spacing: 0.01em;
+}
+
+.onyx-footer-bottom {
+	background-color: #16191c;
+	padding: 1.75rem 1.5rem;
+	color: #A89E8E;
+}
+
+.onyx-footer-bottom__container {
+	max-width: var(--onyx-container-width);
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.5rem;
+}
+
+.onyx-footer-bottom__copyright {
+	font-size: 0.8125rem;
+	font-weight: 500;
+	color: #A89E8E;
+}
+
+.onyx-footer-bottom__badges {
+	display: flex;
+	align-items: center;
+	gap: 1.75rem;
+}
+
+.onyx-fdic-badge {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	line-height: 1;
+}
+
+.onyx-fdic-badge__sub {
+	font-size: 0.65rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #A89E8E;
+	margin-bottom: 2px;
+}
+
+.onyx-fdic-badge__main {
+	font-size: 1.35rem;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	color: #DDDCDC;
+	font-family: var(--onyx-font-heading);
+}
+
+.onyx-lender-badge {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: #A89E8E;
+}
+
+.onyx-lender-badge svg {
+	width: 28px;
+	height: 28px;
+	fill: currentColor;
+	flex-shrink: 0;
+}
+
+.onyx-lender-badge__text {
+	font-size: 0.55rem;
+	font-weight: 700;
+	line-height: 1.15;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: #A89E8E;
 }
 
 /* --------------------------------------------------------------------------
@@ -988,5 +1074,15 @@
 
 	.onyx-rewards__grid {
 		grid-template-columns: 1fr;
+	}
+
+	.onyx-footer-bottom__container {
+		flex-direction: column;
+		text-align: center;
+		gap: 1.25rem;
+	}
+
+	.onyx-footer-bottom__badges {
+		justify-content: center;
 	}
 }
